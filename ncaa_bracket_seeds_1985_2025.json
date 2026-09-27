@@ -1,0 +1,6021 @@
+{
+  "_metadata": {
+    "description": "NCAA March Madness Tournament Bracket Data - Seeds Only",
+    "years_covered": "1985-2025 (excluding 2020 - cancelled due to COVID-19)",
+    "total_tournaments": 40,
+    "format_notes": {
+      "bracket_structure": "Standard 64-team bracket (68 teams from 2011, but First Four play-in games resolve to 64 before main bracket)",
+      "r64_matchup_order": "The 8 first-round matchups in each region follow standard bracket order: 1v16, 8v9, 5v12, 4v13, 6v11, 3v14, 7v10, 2v15",
+      "r64_winners": "Seeds of the 8 winners from the Round of 64, in matchup order (positions 1-8 correspond to the 8 matchups above)",
+      "r32_winners": "Seeds of the 4 winners from the Round of 32. Matchups are: winner of 1v16 game vs winner of 8v9 game, winner of 5v12 vs 4v13, winner of 6v11 vs 3v14, winner of 7v10 vs 2v15",
+      "s16_winners": "Seeds of the 2 Sweet 16 winners (top half vs bottom half of region bracket)",
+      "e8_winner": "Seed of the Elite Eight winner (region champion)",
+      "f4": "Final Four - two semifinal games, each showing the two teams (seed + region) and the winner",
+      "championship": "National Championship game showing both finalists (seed + region) and the winner",
+      "region_names": "Region names varied over the years. Some years used city names (2004-2006), most used East/South/Midwest/West or similar"
+    },
+    "how_to_rebuild_bracket": "For each region, start with seeds 1-16 in standard bracket order (1v16, 8v9, 5v12, 4v13, 6v11, 3v14, 7v10, 2v15). The r64_winners tell you which seed won each of those 8 games. The r32_winners tell you the 4 second-round winners. The s16_winners are the 2 Sweet 16 winners. The e8_winner is the region champion. Then f4 and championship show the Final Four and title game with region tags to distinguish same-seeded teams."
+  },
+  "tournaments": {
+    "1985": {
+      "regions": [
+        "East",
+        "Midwest",
+        "Southeast",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          11,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "Southeast": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          13,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          8,
+          5,
+          11,
+          2
+        ],
+        "s16_winners": [
+          8,
+          2
+        ],
+        "e8_winner": 8
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          3,
+          7
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "East"
+            },
+            {
+              "seed": 1,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 8,
+              "region": "Southeast"
+            },
+            {
+              "seed": 2,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 8,
+            "region": "Southeast"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "East"
+          },
+          {
+            "seed": 8,
+            "region": "Southeast"
+          }
+        ],
+        "winner": {
+          "seed": 8,
+          "region": "Southeast"
+        }
+      }
+    },
+    "1986": {
+      "regions": [
+        "East",
+        "Southeast",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          14,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          14,
+          7
+        ],
+        "s16_winners": [
+          1,
+          7
+        ],
+        "e8_winner": 1
+      },
+      "Southeast": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          11,
+          2
+        ],
+        "s16_winners": [
+          1,
+          11
+        ],
+        "e8_winner": 11
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          14,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          7
+        ],
+        "s16_winners": [
+          1,
+          6
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          8,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          8,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "East"
+            },
+            {
+              "seed": 1,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 11,
+              "region": "Southeast"
+            },
+            {
+              "seed": 2,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 2,
+            "region": "West"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "East"
+          },
+          {
+            "seed": 2,
+            "region": "West"
+          }
+        ],
+        "winner": {
+          "seed": 2,
+          "region": "West"
+        }
+      }
+    },
+    "1987": {
+      "regions": [
+        "East",
+        "Southeast",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "Southeast": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          13,
+          14,
+          6,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          6
+        ],
+        "e8_winner": 6
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          13,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          10
+        ],
+        "s16_winners": [
+          1,
+          10
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 2,
+              "region": "East"
+            },
+            {
+              "seed": 6,
+              "region": "Southeast"
+            }
+          ],
+          "winner": {
+            "seed": 2,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "Midwest"
+            },
+            {
+              "seed": 1,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "Midwest"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "Midwest"
+          },
+          {
+            "seed": 2,
+            "region": "East"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "Midwest"
+        }
+      }
+    },
+    "1988": {
+      "regions": [
+        "East",
+        "Southeast",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          13,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          13,
+          11,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "Southeast": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          6
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          14,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          7
+        ],
+        "s16_winners": [
+          4,
+          6
+        ],
+        "e8_winner": 6
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 2,
+              "region": "East"
+            },
+            {
+              "seed": 6,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 6,
+            "region": "Midwest"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "Southeast"
+            },
+            {
+              "seed": 1,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "Southeast"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 6,
+            "region": "Midwest"
+          },
+          {
+            "seed": 1,
+            "region": "Southeast"
+          }
+        ],
+        "winner": {
+          "seed": 6,
+          "region": "Midwest"
+        }
+      }
+    },
+    "1989": {
+      "regions": [
+        "East",
+        "Southeast",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          14,
+          11,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          11,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "Southeast": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          13,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          5,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          4,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 2,
+              "region": "East"
+            },
+            {
+              "seed": 3,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 3,
+            "region": "West"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "Midwest"
+            },
+            {
+              "seed": 3,
+              "region": "Southeast"
+            }
+          ],
+          "winner": {
+            "seed": 3,
+            "region": "Southeast"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 3,
+            "region": "Southeast"
+          },
+          {
+            "seed": 3,
+            "region": "West"
+          }
+        ],
+        "winner": {
+          "seed": 3,
+          "region": "Southeast"
+        }
+      }
+    },
+    "1990": {
+      "regions": [
+        "East",
+        "Southeast",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          7
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "Southeast": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          14,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          4,
+          6
+        ],
+        "e8_winner": 4
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          8,
+          4,
+          6,
+          10
+        ],
+        "s16_winners": [
+          4,
+          10
+        ],
+        "e8_winner": 4
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          11,
+          7
+        ],
+        "s16_winners": [
+          1,
+          11
+        ],
+        "e8_winner": 1
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 3,
+              "region": "East"
+            },
+            {
+              "seed": 4,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 3,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "West"
+            },
+            {
+              "seed": 4,
+              "region": "Southeast"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "West"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "West"
+          },
+          {
+            "seed": 3,
+            "region": "East"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "West"
+        }
+      }
+    },
+    "1991": {
+      "regions": [
+        "East",
+        "Southeast",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          13,
+          6,
+          3,
+          10,
+          15
+        ],
+        "r32_winners": [
+          1,
+          12,
+          3,
+          10
+        ],
+        "s16_winners": [
+          1,
+          10
+        ],
+        "e8_winner": 1
+      },
+      "Southeast": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          14,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          11,
+          2
+        ],
+        "s16_winners": [
+          4,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "East"
+            },
+            {
+              "seed": 3,
+              "region": "Southeast"
+            }
+          ],
+          "winner": {
+            "seed": 3,
+            "region": "Southeast"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 2,
+              "region": "Midwest"
+            },
+            {
+              "seed": 1,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 2,
+            "region": "Midwest"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 2,
+            "region": "Midwest"
+          },
+          {
+            "seed": 3,
+            "region": "Southeast"
+          }
+        ],
+        "winner": {
+          "seed": 2,
+          "region": "Midwest"
+        }
+      }
+    },
+    "1992": {
+      "regions": [
+        "East",
+        "Southeast",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "Southeast": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          14,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          6
+        ],
+        "e8_winner": 6
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          9,
+          4,
+          6,
+          7
+        ],
+        "s16_winners": [
+          4,
+          6
+        ],
+        "e8_winner": 4
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          13,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "East"
+            },
+            {
+              "seed": 2,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 6,
+              "region": "Southeast"
+            },
+            {
+              "seed": 4,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 6,
+            "region": "Southeast"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "East"
+          },
+          {
+            "seed": 6,
+            "region": "Southeast"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "East"
+        }
+      }
+    },
+    "1993": {
+      "regions": [
+        "East",
+        "Southeast",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "Southeast": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          13,
+          6,
+          3,
+          7,
+          15
+        ],
+        "r32_winners": [
+          1,
+          12,
+          3,
+          7
+        ],
+        "s16_winners": [
+          1,
+          7
+        ],
+        "e8_winner": 1
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "East"
+            },
+            {
+              "seed": 2,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "West"
+            },
+            {
+              "seed": 1,
+              "region": "Southeast"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "West"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "East"
+          },
+          {
+            "seed": 1,
+            "region": "West"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "East"
+        }
+      }
+    },
+    "1994": {
+      "regions": [
+        "East",
+        "Southeast",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          9,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          9,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "Southeast": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          3,
+          10
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 3,
+              "region": "East"
+            },
+            {
+              "seed": 2,
+              "region": "Southeast"
+            }
+          ],
+          "winner": {
+            "seed": 2,
+            "region": "Southeast"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "Midwest"
+            },
+            {
+              "seed": 2,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "Midwest"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "Midwest"
+          },
+          {
+            "seed": 2,
+            "region": "Southeast"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "Midwest"
+        }
+      }
+    },
+    "1995": {
+      "regions": [
+        "East",
+        "Southeast",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          14,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          4,
+          2
+        ],
+        "e8_winner": 4
+      },
+      "Southeast": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          13,
+          6,
+          14,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          4,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 4,
+              "region": "East"
+            },
+            {
+              "seed": 2,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 4,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "West"
+            },
+            {
+              "seed": 2,
+              "region": "Southeast"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "West"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "West"
+          },
+          {
+            "seed": 2,
+            "region": "Southeast"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "West"
+        }
+      }
+    },
+    "1996": {
+      "regions": [
+        "East",
+        "Southeast",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "Southeast": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          13,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          5,
+          2
+        ],
+        "e8_winner": 5
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          8,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          4,
+          2
+        ],
+        "e8_winner": 4
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "East"
+            },
+            {
+              "seed": 1,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "Midwest"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 5,
+              "region": "Southeast"
+            },
+            {
+              "seed": 4,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 4,
+            "region": "West"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "Midwest"
+          },
+          {
+            "seed": 4,
+            "region": "West"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "Midwest"
+        }
+      }
+    },
+    "1997": {
+      "regions": [
+        "East",
+        "Southeast",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          10,
+          15
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          10
+        ],
+        "s16_winners": [
+          1,
+          6
+        ],
+        "e8_winner": 1
+      },
+      "Southeast": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          14,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          14,
+          10
+        ],
+        "s16_winners": [
+          4,
+          10
+        ],
+        "e8_winner": 4
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "East"
+            },
+            {
+              "seed": 4,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 4,
+            "region": "West"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "Southeast"
+            },
+            {
+              "seed": 1,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "Southeast"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 4,
+            "region": "West"
+          },
+          {
+            "seed": 1,
+            "region": "Southeast"
+          }
+        ],
+        "winner": {
+          "seed": 4,
+          "region": "West"
+        }
+      }
+    },
+    "1998": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          14,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          11,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          13,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          8,
+          13,
+          3,
+          2
+        ],
+        "s16_winners": [
+          8,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          10
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "East"
+            },
+            {
+              "seed": 3,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 3,
+            "region": "West"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 2,
+              "region": "South"
+            },
+            {
+              "seed": 3,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 2,
+            "region": "South"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 2,
+            "region": "South"
+          },
+          {
+            "seed": 3,
+            "region": "West"
+          }
+        ],
+        "winner": {
+          "seed": 2,
+          "region": "South"
+        }
+      }
+    },
+    "1999": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          6,
+          10
+        ],
+        "s16_winners": [
+          1,
+          6
+        ],
+        "e8_winner": 1
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          4,
+          3
+        ],
+        "e8_winner": 4
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          13,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          13,
+          3,
+          10
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          14,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          10
+        ],
+        "s16_winners": [
+          1,
+          10
+        ],
+        "e8_winner": 1
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "East"
+            },
+            {
+              "seed": 1,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "West"
+            },
+            {
+              "seed": 4,
+              "region": "South"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "West"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "West"
+          },
+          {
+            "seed": 1,
+            "region": "East"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "West"
+        }
+      }
+    },
+    "2000": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          10
+        ],
+        "s16_winners": [
+          5,
+          3
+        ],
+        "e8_winner": 5
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          8,
+          4,
+          6,
+          7
+        ],
+        "s16_winners": [
+          8,
+          7
+        ],
+        "e8_winner": 8
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          8,
+          4,
+          6,
+          10
+        ],
+        "s16_winners": [
+          8,
+          6
+        ],
+        "e8_winner": 8
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 5,
+              "region": "East"
+            },
+            {
+              "seed": 8,
+              "region": "South"
+            }
+          ],
+          "winner": {
+            "seed": 5,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "Midwest"
+            },
+            {
+              "seed": 8,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "Midwest"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "Midwest"
+          },
+          {
+            "seed": 5,
+            "region": "East"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "Midwest"
+        }
+      }
+    },
+    "2001": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          6
+        ],
+        "e8_winner": 1
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          13,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          11,
+          7
+        ],
+        "s16_winners": [
+          1,
+          11
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          13,
+          11,
+          3,
+          10,
+          15
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          10
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "East"
+            },
+            {
+              "seed": 3,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 2,
+              "region": "Midwest"
+            },
+            {
+              "seed": 1,
+              "region": "South"
+            }
+          ],
+          "winner": {
+            "seed": 2,
+            "region": "Midwest"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "East"
+          },
+          {
+            "seed": 2,
+            "region": "Midwest"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "East"
+        }
+      }
+    },
+    "2002": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          11,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          13,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          10
+        ],
+        "s16_winners": [
+          5,
+          10
+        ],
+        "e8_winner": 5
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          8,
+          12,
+          3,
+          2
+        ],
+        "s16_winners": [
+          12,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "East"
+            },
+            {
+              "seed": 1,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 5,
+              "region": "South"
+            },
+            {
+              "seed": 2,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 5,
+            "region": "South"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "East"
+          },
+          {
+            "seed": 5,
+            "region": "South"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "East"
+        }
+      }
+    },
+    "2003": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          3,
+          10
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          7
+        ],
+        "s16_winners": [
+          1,
+          7
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          13,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 3,
+              "region": "East"
+            },
+            {
+              "seed": 1,
+              "region": "South"
+            }
+          ],
+          "winner": {
+            "seed": 3,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 3,
+              "region": "Midwest"
+            },
+            {
+              "seed": 2,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 2,
+            "region": "West"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 3,
+            "region": "East"
+          },
+          {
+            "seed": 2,
+            "region": "West"
+          }
+        ],
+        "winner": {
+          "seed": 3,
+          "region": "East"
+        }
+      }
+    },
+    "2004": {
+      "regions": [
+        "St. Louis",
+        "Atlanta",
+        "Phoenix",
+        "East Rutherford"
+      ],
+      "St. Louis": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          9,
+          4,
+          3,
+          10
+        ],
+        "s16_winners": [
+          4,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "Atlanta": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          7
+        ],
+        "s16_winners": [
+          1,
+          7
+        ],
+        "e8_winner": 1
+      },
+      "Phoenix": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          8,
+          5,
+          6,
+          2
+        ],
+        "s16_winners": [
+          8,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "East Rutherford": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "Atlanta"
+            },
+            {
+              "seed": 2,
+              "region": "Phoenix"
+            }
+          ],
+          "winner": {
+            "seed": 2,
+            "region": "Phoenix"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 2,
+              "region": "East Rutherford"
+            },
+            {
+              "seed": 3,
+              "region": "St. Louis"
+            }
+          ],
+          "winner": {
+            "seed": 3,
+            "region": "St. Louis"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 2,
+            "region": "Phoenix"
+          },
+          {
+            "seed": 3,
+            "region": "St. Louis"
+          }
+        ],
+        "winner": {
+          "seed": 2,
+          "region": "Phoenix"
+        }
+      }
+    },
+    "2005": {
+      "regions": [
+        "Syracuse",
+        "Austin",
+        "Albuquerque",
+        "Chicago"
+      ],
+      "Syracuse": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          14,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          10
+        ],
+        "s16_winners": [
+          1,
+          6
+        ],
+        "e8_winner": 1
+      },
+      "Austin": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          13,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          2
+        ],
+        "s16_winners": [
+          5,
+          2
+        ],
+        "e8_winner": 5
+      },
+      "Albuquerque": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          7
+        ],
+        "s16_winners": [
+          4,
+          7
+        ],
+        "e8_winner": 4
+      },
+      "Chicago": {
+        "r64_winners": [
+          1,
+          9,
+          4,
+          12,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "Syracuse"
+            },
+            {
+              "seed": 5,
+              "region": "Austin"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "Syracuse"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "Chicago"
+            },
+            {
+              "seed": 4,
+              "region": "Albuquerque"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "Chicago"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "Syracuse"
+          },
+          {
+            "seed": 1,
+            "region": "Chicago"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "Syracuse"
+        }
+      }
+    },
+    "2006": {
+      "regions": [
+        "Washington, D.C.",
+        "Atlanta",
+        "Minneapolis",
+        "Oakland"
+      ],
+      "Washington, D.C.": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          11,
+          7
+        ],
+        "s16_winners": [
+          1,
+          11
+        ],
+        "e8_winner": 11
+      },
+      "Atlanta": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          14,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          4,
+          2
+        ],
+        "e8_winner": 4
+      },
+      "Minneapolis": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          7
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "Oakland": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          13,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          13,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 3,
+              "region": "Minneapolis"
+            },
+            {
+              "seed": 11,
+              "region": "Washington, D.C."
+            }
+          ],
+          "winner": {
+            "seed": 3,
+            "region": "Minneapolis"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 2,
+              "region": "Oakland"
+            },
+            {
+              "seed": 4,
+              "region": "Atlanta"
+            }
+          ],
+          "winner": {
+            "seed": 2,
+            "region": "Oakland"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 3,
+            "region": "Minneapolis"
+          },
+          {
+            "seed": 2,
+            "region": "Oakland"
+          }
+        ],
+        "winner": {
+          "seed": 3,
+          "region": "Minneapolis"
+        }
+      }
+    },
+    "2007": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          7
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "Midwest"
+            },
+            {
+              "seed": 2,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "Midwest"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "South"
+            },
+            {
+              "seed": 2,
+              "region": "East"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "South"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "Midwest"
+          },
+          {
+            "seed": 1,
+            "region": "South"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "Midwest"
+        }
+      }
+    },
+    "2008": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          13,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          3,
+          10
+        ],
+        "s16_winners": [
+          1,
+          10
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          13,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          3,
+          7
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "Midwest"
+            },
+            {
+              "seed": 1,
+              "region": "East"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "Midwest"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "South"
+            },
+            {
+              "seed": 1,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "South"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "Midwest"
+          },
+          {
+            "seed": 1,
+            "region": "South"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "Midwest"
+        }
+      }
+    },
+    "2009": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          13,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "South"
+            },
+            {
+              "seed": 3,
+              "region": "East"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "South"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 2,
+              "region": "Midwest"
+            },
+            {
+              "seed": 1,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 2,
+            "region": "Midwest"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "South"
+          },
+          {
+            "seed": 2,
+            "region": "Midwest"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "South"
+        }
+      }
+    },
+    "2010": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          11,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          10
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          14,
+          10,
+          2
+        ],
+        "r32_winners": [
+          9,
+          5,
+          6,
+          2
+        ],
+        "s16_winners": [
+          5,
+          6
+        ],
+        "e8_winner": 5
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          13,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          2
+        ],
+        "s16_winners": [
+          5,
+          2
+        ],
+        "e8_winner": 5
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 5,
+              "region": "Midwest"
+            },
+            {
+              "seed": 5,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 5,
+            "region": "West"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "South"
+            },
+            {
+              "seed": 2,
+              "region": "East"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "South"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "South"
+          },
+          {
+            "seed": 5,
+            "region": "West"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "South"
+        }
+      }
+    },
+    "2011": {
+      "regions": [
+        "East",
+        "Southeast",
+        "Southwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          11,
+          2
+        ],
+        "s16_winners": [
+          4,
+          2
+        ],
+        "e8_winner": 4
+      },
+      "Southeast": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          8,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          8,
+          2
+        ],
+        "e8_winner": 8
+      },
+      "Southwest": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          13,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          11,
+          10
+        ],
+        "s16_winners": [
+          1,
+          11
+        ],
+        "e8_winner": 11
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          5,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 4,
+              "region": "East"
+            },
+            {
+              "seed": 3,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 3,
+            "region": "West"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 11,
+              "region": "Southwest"
+            },
+            {
+              "seed": 8,
+              "region": "Southeast"
+            }
+          ],
+          "winner": {
+            "seed": 8,
+            "region": "Southeast"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 3,
+            "region": "West"
+          },
+          {
+            "seed": 8,
+            "region": "Southeast"
+          }
+        ],
+        "winner": {
+          "seed": 3,
+          "region": "West"
+        }
+      }
+    },
+    "2012": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          11,
+          3,
+          10,
+          15
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          10
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          13,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          13,
+          11,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          7,
+          15
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          7
+        ],
+        "s16_winners": [
+          4,
+          7
+        ],
+        "e8_winner": 4
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "South"
+            },
+            {
+              "seed": 4,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "South"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 2,
+              "region": "East"
+            },
+            {
+              "seed": 2,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 2,
+            "region": "Midwest"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "South"
+          },
+          {
+            "seed": 2,
+            "region": "Midwest"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "South"
+        }
+      }
+    },
+    "2013": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          4,
+          3
+        ],
+        "e8_winner": 4
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          7,
+          15
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          15
+        ],
+        "s16_winners": [
+          4,
+          3
+        ],
+        "e8_winner": 4
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          13,
+          6,
+          14,
+          10,
+          2
+        ],
+        "r32_winners": [
+          9,
+          13,
+          6,
+          2
+        ],
+        "s16_winners": [
+          9,
+          2
+        ],
+        "e8_winner": 9
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "Midwest"
+            },
+            {
+              "seed": 9,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "Midwest"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 4,
+              "region": "South"
+            },
+            {
+              "seed": 4,
+              "region": "East"
+            }
+          ],
+          "winner": {
+            "seed": 4,
+            "region": "South"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "Midwest"
+          },
+          {
+            "seed": 4,
+            "region": "South"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "Midwest"
+        }
+      }
+    },
+    "2014": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          7
+        ],
+        "s16_winners": [
+          4,
+          7
+        ],
+        "e8_winner": 7
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          11,
+          10
+        ],
+        "s16_winners": [
+          1,
+          11
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          14,
+          7,
+          2
+        ],
+        "r32_winners": [
+          8,
+          4,
+          11,
+          2
+        ],
+        "s16_winners": [
+          8,
+          2
+        ],
+        "e8_winner": 8
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "South"
+            },
+            {
+              "seed": 7,
+              "region": "East"
+            }
+          ],
+          "winner": {
+            "seed": 7,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 2,
+              "region": "West"
+            },
+            {
+              "seed": 8,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 8,
+            "region": "Midwest"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 7,
+            "region": "East"
+          },
+          {
+            "seed": 8,
+            "region": "Midwest"
+          }
+        ],
+        "winner": {
+          "seed": 7,
+          "region": "East"
+        }
+      }
+    },
+    "2015": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          8,
+          4,
+          3,
+          7
+        ],
+        "s16_winners": [
+          4,
+          7
+        ],
+        "e8_winner": 7
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          14,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          11,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          7
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          14,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "Midwest"
+            },
+            {
+              "seed": 1,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "West"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "South"
+            },
+            {
+              "seed": 7,
+              "region": "East"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "South"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "South"
+          },
+          {
+            "seed": 1,
+            "region": "West"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "South"
+        }
+      }
+    },
+    "2016": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          11,
+          3,
+          10,
+          15
+        ],
+        "r32_winners": [
+          1,
+          4,
+          11,
+          10
+        ],
+        "s16_winners": [
+          1,
+          10
+        ],
+        "e8_winner": 10
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          13,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          14,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          7
+        ],
+        "s16_winners": [
+          1,
+          6
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "Midwest"
+            },
+            {
+              "seed": 10,
+              "region": "East"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "Midwest"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 2,
+              "region": "South"
+            },
+            {
+              "seed": 2,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 2,
+            "region": "South"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 2,
+            "region": "South"
+          },
+          {
+            "seed": 1,
+            "region": "Midwest"
+          }
+        ],
+        "winner": {
+          "seed": 2,
+          "region": "South"
+        }
+      }
+    },
+    "2017": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          8,
+          4,
+          3,
+          7
+        ],
+        "s16_winners": [
+          4,
+          7
+        ],
+        "e8_winner": 7
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          7
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          11,
+          2
+        ],
+        "s16_winners": [
+          1,
+          11
+        ],
+        "e8_winner": 1
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "West"
+            },
+            {
+              "seed": 7,
+              "region": "East"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "West"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "South"
+            },
+            {
+              "seed": 3,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "South"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "South"
+          },
+          {
+            "seed": 1,
+            "region": "West"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "South"
+        }
+      }
+    },
+    "2018": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          13,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "South": {
+        "r64_winners": [
+          16,
+          9,
+          5,
+          13,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          9,
+          5,
+          11,
+          7
+        ],
+        "s16_winners": [
+          9,
+          11
+        ],
+        "e8_winner": 11
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          11,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          9,
+          4,
+          3,
+          7
+        ],
+        "s16_winners": [
+          9,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "East"
+            },
+            {
+              "seed": 1,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 3,
+              "region": "West"
+            },
+            {
+              "seed": 11,
+              "region": "South"
+            }
+          ],
+          "winner": {
+            "seed": 3,
+            "region": "West"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "East"
+          },
+          {
+            "seed": 3,
+            "region": "West"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "East"
+        }
+      }
+    },
+    "2019": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          13,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          12,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          5,
+          2
+        ],
+        "e8_winner": 5
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 3
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 5,
+              "region": "Midwest"
+            },
+            {
+              "seed": 1,
+              "region": "South"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "South"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 2,
+              "region": "East"
+            },
+            {
+              "seed": 3,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 3,
+            "region": "West"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "South"
+          },
+          {
+            "seed": 3,
+            "region": "West"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "South"
+        }
+      }
+    },
+    "2021": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          14,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          11,
+          2
+        ],
+        "s16_winners": [
+          1,
+          11
+        ],
+        "e8_winner": 11
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          13,
+          6,
+          3,
+          7,
+          15
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          15
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          8,
+          12,
+          11,
+          2
+        ],
+        "s16_winners": [
+          12,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          13,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          7
+        ],
+        "s16_winners": [
+          1,
+          6
+        ],
+        "e8_winner": 1
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "South"
+            },
+            {
+              "seed": 2,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "South"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "West"
+            },
+            {
+              "seed": 11,
+              "region": "East"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "West"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "South"
+          },
+          {
+            "seed": 1,
+            "region": "West"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "South"
+        }
+      }
+    },
+    "2022": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          15
+        ],
+        "r32_winners": [
+          8,
+          4,
+          3,
+          15
+        ],
+        "s16_winners": [
+          8,
+          15
+        ],
+        "e8_winner": 8
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          11,
+          2
+        ],
+        "s16_winners": [
+          5,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          11,
+          10
+        ],
+        "s16_winners": [
+          1,
+          10
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          4,
+          2
+        ],
+        "e8_winner": 2
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 8,
+              "region": "East"
+            },
+            {
+              "seed": 2,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 8,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 2,
+              "region": "South"
+            },
+            {
+              "seed": 1,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "Midwest"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "Midwest"
+          },
+          {
+            "seed": 8,
+            "region": "East"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "Midwest"
+        }
+      }
+    },
+    "2023": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          16,
+          9,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          9,
+          4,
+          3,
+          7
+        ],
+        "s16_winners": [
+          9,
+          3
+        ],
+        "e8_winner": 9
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          13,
+          6,
+          3,
+          7,
+          15
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          15
+        ],
+        "s16_winners": [
+          5,
+          6
+        ],
+        "e8_winner": 5
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          5,
+          2
+        ],
+        "e8_winner": 5
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          8,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          4,
+          3
+        ],
+        "e8_winner": 4
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 9,
+              "region": "East"
+            },
+            {
+              "seed": 5,
+              "region": "South"
+            }
+          ],
+          "winner": {
+            "seed": 5,
+            "region": "South"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 5,
+              "region": "Midwest"
+            },
+            {
+              "seed": 4,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 4,
+            "region": "West"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 5,
+            "region": "South"
+          },
+          {
+            "seed": 4,
+            "region": "West"
+          }
+        ],
+        "winner": {
+          "seed": 4,
+          "region": "West"
+        }
+      }
+    },
+    "2024": {
+      "regions": [
+        "East",
+        "South",
+        "Midwest",
+        "West"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          13,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          11,
+          14,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          11,
+          2
+        ],
+        "s16_winners": [
+          4,
+          11
+        ],
+        "e8_winner": 11
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          5,
+          4,
+          11,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          9,
+          12,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          4,
+          6
+        ],
+        "e8_winner": 4
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "East"
+            },
+            {
+              "seed": 4,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "East"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 11,
+              "region": "South"
+            },
+            {
+              "seed": 1,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "Midwest"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "East"
+          },
+          {
+            "seed": 1,
+            "region": "Midwest"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "East"
+        }
+      }
+    },
+    "2025": {
+      "regions": [
+        "South",
+        "East",
+        "West",
+        "Midwest"
+      ],
+      "East": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "South": {
+        "r64_winners": [
+          1,
+          9,
+          5,
+          4,
+          6,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          5,
+          6,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "Midwest": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          6,
+          3,
+          7,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "s16_winners": [
+          1,
+          2
+        ],
+        "e8_winner": 1
+      },
+      "West": {
+        "r64_winners": [
+          1,
+          8,
+          12,
+          4,
+          11,
+          3,
+          10,
+          2
+        ],
+        "r32_winners": [
+          1,
+          4,
+          3,
+          10
+        ],
+        "s16_winners": [
+          1,
+          3
+        ],
+        "e8_winner": 1
+      },
+      "f4": [
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "South"
+            },
+            {
+              "seed": 1,
+              "region": "West"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "West"
+          }
+        },
+        {
+          "matchup": [
+            {
+              "seed": 1,
+              "region": "East"
+            },
+            {
+              "seed": 1,
+              "region": "Midwest"
+            }
+          ],
+          "winner": {
+            "seed": 1,
+            "region": "Midwest"
+          }
+        }
+      ],
+      "championship": {
+        "matchup": [
+          {
+            "seed": 1,
+            "region": "West"
+          },
+          {
+            "seed": 1,
+            "region": "Midwest"
+          }
+        ],
+        "winner": {
+          "seed": 1,
+          "region": "West"
+        }
+      }
+    }
+  }
+}

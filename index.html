@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>March Madness Bracket Simulator</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+:root {
+  --bg: #0f1923; --panel: #1a2634; --border: #2a3a4a;
+  --accent: #ff6b35; --accent2: #4ecdc4; --text: #e8e8e8; --dim: #8899aa;
+  --line: #4a5e70; --upset: #e74c3c;
+  --east: #e74c3c; --west: #3498db; --south: #f1c40f; --midwest: #2ecc71;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+h1{text-align:center;padding:8px 0 2px;font-size:1.4rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sub{text-align:center;color:var(--dim);font-size:0.7rem;margin-bottom:2px}
+/* Controls */
+.ctrl{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;padding:5px 16px;background:var(--panel);border-bottom:1px solid var(--border)}
+.ctrl label{font-size:0.76rem;color:var(--dim)}
+.ctrl input[type=range]{width:160px;accent-color:var(--accent)}
+.ctrl input[type=number]{width:54px;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--accent);padding:2px 4px;font-size:0.8rem;font-weight:700;text-align:center}
+.ctrl input[type=number]:focus{outline:none;border-color:var(--accent)}
+.ctrl .cg{display:flex;align-items:center;gap:6px}
+button{padding:5px 14px;border:none;border-radius:5px;font-weight:700;cursor:pointer;font-size:0.76rem}
+button:active{transform:scale(.97)}
+.bs{background:linear-gradient(135deg,var(--accent2),#3bb8b0);color:#111}
+/* Charts stacked */
+.charts-stack{max-width:850px;margin:4px auto;padding:0 16px;display:flex;flex-direction:column;gap:4px}
+.cw{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:6px 10px}
+.cw canvas{width:100%!important;height:115px!important}
+.cw .cw-hdr{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:2px}
+.cw .cw-hdr h3{font-size:0.72rem;color:var(--accent2);margin:0}
+.cw .cw-hdr select{background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--accent);padding:1px 4px;font-size:0.7rem;font-weight:700;cursor:pointer}
+.cw .cw-hdr select:focus{outline:none;border-color:var(--accent)}
+/* Historical section */
+.hist-section{max-width:900px;margin:0 auto;padding:8px 16px}
+.hist-section h2{text-align:center;font-size:1.1rem;color:var(--accent);margin-bottom:6px}
+.hist-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;padding:8px;background:var(--panel);border:1px solid var(--border);border-radius:8px;margin-bottom:8px}
+.hist-bar label{font-size:.72rem;color:var(--dim)}
+.hist-bar .yr-grid{display:flex;flex-wrap:wrap;gap:3px;max-width:700px;justify-content:center}
+.hist-bar .yr-btn{padding:2px 5px;font-size:.62rem;border:1px solid var(--border);border-radius:3px;background:var(--bg);color:var(--dim);cursor:pointer;transition:all .15s}
+.hist-bar .yr-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.hist-bar .yr-btn:hover{border-color:var(--accent)}
+.hist-btns{display:flex;gap:6px;margin-top:4px}
+.hist-btns button{padding:3px 10px;font-size:.65rem;border:1px solid var(--border);border-radius:3px;background:var(--bg);color:var(--dim);cursor:pointer}
+.hist-btns button:hover{border-color:var(--accent);color:var(--text)}
+.hist-info{text-align:center;font-size:.7rem;color:var(--dim);margin:4px 0}
+.hist-charts{display:flex;flex-direction:column;gap:4px}
+/* Equation */
+.eq-bar{text-align:center;padding:2px;font-size:0.68rem;color:var(--dim);max-width:700px;margin:0 auto}
+.eq-bar .eq{font-family:'Cambria Math','Times New Roman',serif;color:var(--accent2);font-size:0.82rem}
+/* Region legend */
+.rleg{display:flex;justify-content:center;gap:14px;padding:2px 0;font-size:0.65rem}
+.rleg span{display:flex;align-items:center;gap:3px;color:var(--dim)}
+.rleg .d{width:7px;height:7px;border-radius:50%}
+/* Bracket row: bracket + stats side by side */
+.bracket-row{display:flex;align-items:flex-start;justify-content:center;gap:12px;padding:0 8px 8px}
+.bsec{flex:1;min-width:0;max-width:1200px}
+.bracket{display:flex;align-items:stretch;justify-content:center;height:560px;width:100%}
+.rcol{display:flex;flex-direction:column;min-width:0;flex-shrink:1}
+.rt{text-align:center;font-size:0.58rem;color:var(--dim);font-weight:700;text-transform:uppercase;letter-spacing:.5px;height:14px;line-height:14px;white-space:nowrap}
+.rb{flex:1;display:flex;flex-direction:column}
+.slot{flex:1;display:flex;align-items:center;position:relative}
+.sl{padding:0 8px}.sr{padding:0 8px}.sc{justify-content:center;padding:0 8px}
+/* Matchup */
+.mu{background:var(--panel);border:1px solid var(--border);border-radius:3px;overflow:hidden;cursor:pointer;transition:border-color .15s;width:100%;max-width:88px;min-width:48px}
+.mu:hover{border-color:var(--accent)}
+.mu .tm{display:flex;align-items:center;padding:1px 4px;font-size:0.7rem;gap:3px;border-bottom:1px solid rgba(42,58,74,.4);line-height:1.2;height:14px}
+.mu .tm:last-child{border-bottom:none}
+.mu .tm .rd{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.mu .tm .sn{font-weight:700;font-size:0.68rem}
+.mu .tm.w{position:relative}
+.mu .tm.l{opacity:.3}
+/* Connectors */
+.ccol{display:flex;flex-direction:column;width:18px;flex-shrink:0}
+.ccol .csp{height:14px}
+.ccol .cb{flex:1;display:flex;flex-direction:column}
+.cg{flex:1;position:relative}
+.cg .arm-t{position:absolute;top:25%;bottom:50%;left:0;width:55%;border-right:1px solid var(--line);border-top:1px solid var(--line)}
+.cg .arm-b{position:absolute;top:50%;bottom:25%;left:0;width:55%;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cg .arm-o{position:absolute;top:50%;left:55%;right:0;border-top:1px solid var(--line)}
+.cg.cgr .arm-t{left:auto;right:0;border-right:none;border-left:1px solid var(--line)}
+.cg.cgr .arm-b{left:auto;right:0;border-right:none;border-left:1px solid var(--line)}
+.cg.cgr .arm-o{left:0;right:55%;border-top:1px solid var(--line)}
+.cg.cpt::before{content:'';position:absolute;top:50%;left:0;right:0;border-top:1px solid var(--line)}
+.arm-upset{border-color:var(--upset)!important}
+/* Slot stubs */
+.sl::after{content:'';position:absolute;right:0;top:50%;width:8px;border-top:1px solid var(--line)}
+.sr::before{content:'';position:absolute;left:0;top:50%;width:8px;border-top:1px solid var(--line)}
+.sl.hi::before{content:'';position:absolute;left:0;top:50%;width:8px;border-top:1px solid var(--line)}
+.sr.hi::after{content:'';position:absolute;right:0;top:50%;width:8px;border-top:1px solid var(--line)}
+.sno::after,.sno::before{display:none!important}
+/* Champion banner - floats above the Final matchup */
+.rb{position:relative}
+.champ-above{position:absolute;left:50%;top:50%;transform:translate(-50%,-130%);text-align:center;padding:4px 8px;white-space:nowrap;background:linear-gradient(135deg,rgba(255,107,53,.2),rgba(78,205,196,.2));border:2px solid var(--accent);border-radius:8px;z-index:5}
+.champ-above .cl{font-size:.48rem;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px}
+.champ-above .cn{font-size:.75rem;font-weight:700;color:var(--accent)}
+/* Side stats panel */
+.side-stats{display:flex;flex-direction:column;gap:8px;padding-top:20px;flex-shrink:0;width:185px}
+.sc2{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:10px 14px;text-align:center}
+.sc2 .sl2{font-size:.68rem;color:var(--dim);margin-bottom:2px}
+.sc2 .sv{font-size:.92rem;font-weight:700;color:var(--accent)}
+.sc2 .sv.sm{font-size:.72rem}
+.sc2 .hw{font-size:.68rem;color:var(--accent2);margin-top:2px}
+/* Tooltip */
+/* Hypothetical bracket clickable teams */
+.mu.hypo .tm{cursor:pointer;transition:background .1s}
+.mu.hypo .tm:hover{filter:brightness(1.4)}
+.mu.hypo .tm.pick{background:rgba(78,205,196,.25)!important;box-shadow:inset 2px 0 0 var(--accent2)}
+.mu.hypo .tm.elim{opacity:.3}
+.mu.hypo.locked{border-color:var(--accent2)}
+.tip{display:none;position:fixed;background:#1e2d3d;border:1px solid var(--accent);border-radius:8px;padding:8px 12px;font-size:.72rem;z-index:1000;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,.5);min-width:155px}
+.tip .tr{display:flex;justify-content:space-between;gap:8px;padding:2px 0}
+.tip .tp{font-weight:700;color:#2ecc71}
+.tip .tl{font-size:.6rem;color:var(--dim);margin-bottom:2px}
+</style>
+</head>
+<body>
+<div class="hist-section" id="histSection">
+  <h2>Historical NCAA Tournament Data (1985–2025)</h2>
+  <div class="hist-bar">
+    <label>Select Years:</label>
+    <div class="yr-grid" id="yrGrid"></div>
+    <div class="hist-btns">
+      <button onclick="histSelectAll()">All</button>
+      <button onclick="histSelectNone()">None</button>
+      <button onclick="histSelectRange(1985,1999)">1985–99</button>
+      <button onclick="histSelectRange(2000,2025)">2000–25</button>
+      <button onclick="histSelectRange(2015,2025)">Last 10</button>
+    </div>
+  </div>
+  <div class="hist-info" id="histInfo">Loading data...</div>
+  <div class="hist-charts">
+    <div class="cw">
+      <div class="cw-hdr">
+        <h3>Historical P(Loss) for Seed</h3>
+        <select id="histLossSel"></select>
+        <h3>vs Each Opponent (from real matchups)</h3>
+      </div>
+      <canvas id="hLsC"></canvas>
+    </div>
+    <div class="cw"><h3>Historical Tournament Win % by Seed</h3><canvas id="hWpC"></canvas></div>
+    <div class="cw"><h3 id="hUdTitle">Historical Upset Distribution per Tournament (0 years)</h3><canvas id="hUdC"></canvas></div>
+  </div>
+  <div style="text-align:center;margin:10px 0 4px">
+    <label style="font-size:.78rem;color:var(--dim)">View Bracket for Year: </label>
+    <select id="histYearBracketSel" style="background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--accent);padding:3px 8px;font-size:.8rem;font-weight:700;cursor:pointer">
+      <option value="">-- Select Year --</option>
+    </select>
+  </div>
+  <div id="histBc" style="overflow-x:auto"></div>
+</div>
+
+<div style="text-align:center;padding:18px 0 10px;background:linear-gradient(180deg,rgba(78,205,196,.08),transparent);border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:10px">
+  <h2 style="color:var(--accent2);font-size:1.2rem;margin-bottom:4px">Build Your Own Bracket</h2>
+  <p style="color:var(--dim);font-size:.78rem;margin-bottom:10px">Click a team to pick the winner. Hover to see historical win rates from selected years above.</p>
+  <button class="bs" onclick="showHypoBracket()" id="hypoToggle" style="font-size:.85rem;padding:8px 24px;margin-right:8px">Create Hypothetical Bracket</button>
+  <button class="bs" onclick="hideHypoBracket()" id="hypoHideBtn" style="font-size:.85rem;padding:8px 24px;margin-right:8px;display:none">Hide Bracket</button>
+  <button class="bp" onclick="hypoNoUpsets()" id="hypoChalkBtn" style="font-size:.78rem;padding:6px 16px;display:none">No Upsets (Chalk)</button>
+  <button class="bp" onclick="resetHypoBracket()" id="hypoResetBtn" style="font-size:.78rem;padding:6px 16px;display:none">Reset Picks</button>
+</div>
+<div id="hypoBc" style="overflow-x:auto;display:none"></div>
+
+<h1>March Madness Bracket Simulator</h1>
+<p class="sub">Adjust the exponent to control how dominant higher seeds are</p>
+<div class="ctrl">
+  <div class="cg">
+    <label>Skill Gap:</label>
+    <input type="range" id="sl" min="0" max="5" step="0.1" value="1.5">
+    <input type="number" id="ei" min="0" max="10" step="0.1" value="1.5">
+  </div>
+  <div class="cg">
+    <label>Curve Shape:</label>
+    <input type="range" id="csl" min="0" max="1" step="0.01" value="1">
+    <span style="font-size:0.7rem;color:var(--dim);min-width:62px;text-align:center" id="csLbl">Exponential</span>
+  </div>
+
+</div>
+
+<div class="charts-stack">
+  <div class="cw"><h3>Skill Level by Seed</h3><canvas id="skC"></canvas></div>
+  <div class="cw">
+    <div class="cw-hdr">
+      <h3>P(Loss) for Seed</h3>
+      <select id="lossSeedSel"></select>
+      <h3>vs Each Opponent</h3>
+    </div>
+    <canvas id="lsC"></canvas>
+  </div>
+  <div class="cw"><h3>Tournament Win Probability by Seed</h3><canvas id="wpC"></canvas></div>
+</div>
+
+<div class="eq-bar" id="eqD"></div>
+
+<div class="rleg">
+  <span><span class="d" style="background:var(--east)"></span> East</span>
+  <span><span class="d" style="background:var(--west)"></span> West</span>
+  <span><span class="d" style="background:var(--south)"></span> South</span>
+  <span><span class="d" style="background:var(--midwest)"></span> Midwest</span>
+</div>
+
+<div style="text-align:center;padding:4px 0">
+  <button class="bs" onclick="simulateBracket()" style="padding:7px 24px;font-size:0.82rem">Auto-Fill Bracket</button>
+</div>
+
+<div class="bracket-row">
+  <div class="bsec">
+    <div id="bc"></div>
+  </div>
+  <div class="side-stats">
+    <div class="sc2"><div class="sl2">Perfect Bracket Odds</div><div class="sv" id="po">--</div></div>
+    <div class="sc2"><div class="sl2">Perfect Bracket: 1 in ...</div><div class="sv sm" id="p1">--</div><div class="hw" id="pw"></div></div>
+    <div class="sc2"><div class="sl2">Total Upsets</div><div class="sv" id="uCnt">--</div></div>
+    <div class="sc2"><div class="sl2">Upset Rate</div><div class="sv" id="uPct">--</div></div>
+  </div>
+</div>
+
+<div style="max-width:850px;margin:8px auto;padding:0 16px">
+  <div class="cw"><h3>Expected Upset Distribution (63 games)</h3><canvas id="udC"></canvas></div>
+</div>
+
+<div class="tip" id="tip"></div>
+
+<script>
+const S=16, REGIONS=['East','West','South','Midwest'];
+const RC={East:'#e74c3c',West:'#3498db',South:'#f1c40f',Midwest:'#2ecc71',
+  Southeast:'#e74c3c',Southwest:'#f39c12',Mideast:'#9b59b6',
+  Minneapolis:'#3498db',Atlanta:'#e74c3c',Oakland:'#2ecc71',Syracuse:'#9b59b6',
+  'St. Louis':'#f1c40f',Austin:'#f39c12',Washington:'#3498db',Albuquerque:'#e67e22',
+  Phoenix:'#f39c12',Chicago:'#3498db'};
+function getRC(r){return RC[r]||'#8899aa'}
+const RN=['R64','R32','Sweet 16','Elite 8','Final 4','Final'];
+const SO=[1,16,8,9,5,12,4,13,6,11,3,14,7,10,2,15];
+let skills=Array(S).fill(100), br=null, winProbs=Array(S).fill(0), skC, wpC, lsC, udC;
+let upsetDist=[];
+let selectedLossSeed=1;
+
+// ── Hex to rgba ──
+function hr(hex,a){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return`rgba(${r},${g},${b},${a})`}
+
+// ── Skills ──
+function getExp(){return parseFloat(document.getElementById('ei').value)||0}
+function getCurve(){return parseFloat(document.getElementById('csl').value)||0}
+function compSkills(){
+  const e=getExp(), c=getCurve();
+  if(e===0){skills.fill(100);return}
+  // Exponential: 100 * (1/seed)^(e/3)
+  // Linear: evenly spaced from 100 down to the same minimum as exponential
+  const expVals=[];
+  for(let i=0;i<S;i++)expVals[i]=100*Math.pow(1/(i+1),e/3);
+  const minExp=expVals[S-1]; // value at seed 16
+  // Linear from 100 to minExp
+  for(let i=0;i<S;i++){
+    const lin=100-i*(100-minExp)/(S-1);
+    skills[i]=Math.max(1,Math.round(lin*(1-c)+expVals[i]*c));
+  }
+}
+
+// ── Controls ──
+function setupCtrl(){
+  const s=document.getElementById('sl'),ei=document.getElementById('ei');
+  s.addEventListener('input',function(){ei.value=parseFloat(this.value)===0?'0':this.value;onExpChange()});
+  ei.addEventListener('change',function(){let v=parseFloat(this.value);if(isNaN(v)||v<0)v=0;if(v>10)v=10;this.value=v;s.value=Math.min(v,5);onExpChange()});
+  // Curve shape slider
+  const csl=document.getElementById('csl'),csLbl=document.getElementById('csLbl');
+  csl.addEventListener('input',function(){
+    const v=parseFloat(this.value);
+    csLbl.textContent=v===0?'Linear':v===1?'Exponential':v<0.5?'Mostly Linear':'Mostly Exp.';
+    onExpChange();
+  });
+  // Loss seed selector
+  const sel=document.getElementById('lossSeedSel');
+  for(let i=1;i<=S;i++){const o=document.createElement('option');o.value=i;o.textContent='#'+i;sel.appendChild(o)}
+  sel.value=1;
+  sel.addEventListener('change',function(){selectedLossSeed=+this.value;updLsC()});
+}
+function onExpChange(){compSkills();updSkC();updLsC();updEq();calcTheoretical()}
+
+// ── Equation ──
+function updEq(){
+  const e=getExp(),c=getCurve();
+  if(e===0){
+    document.getElementById('eqD').innerHTML='<span class="eq">Skill = 100 for all seeds (uniform)</span> <span style="font-size:.62rem;color:var(--dim)">| P(A) = 50%</span>';
+  }else{
+    const p=(e/3).toFixed(3);
+    const blend=c===1?`100 &times; (1/s)<sup>${p}</sup>`:c===0
+      ?`100 &minus; ${((100-100*Math.pow(1/S,e/3))/(S-1)).toFixed(1)} &times; (s&minus;1)`
+      :`${(1-c).toFixed(2)}&times;Linear + ${c.toFixed(2)}&times;100(1/s)<sup>${p}</sup>`;
+    document.getElementById('eqD').innerHTML=
+      `<span class="eq">Skill(s) = ${blend}</span> <span style="font-size:.62rem;color:var(--dim)">| P(A) = Skill<sub>A</sub>/(Skill<sub>A</sub>+Skill<sub>B</sub>) | P(correct) = P(A)&sup2;+P(B)&sup2;</span>`;
+  }
+}
+
+// ── Probability ──
+function wp(a,b){return a+b===0?.5:a/(a+b)}
+function isUpset(m){if(!m.winner)return false;const l=m.winner===m.teamA?m.teamB:m.teamA;return m.winner.skill<l.skill}
+
+// ── Loss probabilities for selected seed ──
+function getLossData(){
+  const sk=skills[selectedLossSeed-1];
+  return Array.from({length:S},(_,i)=>{
+    if(i===selectedLossSeed-1)return 0; // vs self = N/A, show 0
+    return(1-wp(sk,skills[i]))*100;
+  });
+}
+
+// ── Theoretical calculations ──
+function calcTheoretical(){
+  const r64d=[];
+  for(let i=0;i<SO.length;i+=2){
+    const a=SO[i],b=SO[i+1],p=wp(skills[a-1],skills[b-1]);
+    r64d.push({[a]:p,[b]:1-p});
+  }
+  function comb(dA,dB){
+    const r={};
+    for(const[sa,pa]of Object.entries(dA))for(const[sb,pb]of Object.entries(dB)){
+      const a=+sa,b=+sb,pw=wp(skills[a-1],skills[b-1]);
+      r[a]=(r[a]||0)+pa*pb*pw;r[b]=(r[b]||0)+pa*pb*(1-pw);
+    }return r;
+  }
+  let cur=[...r64d];
+  while(cur.length>1){const nx=[];for(let i=0;i<cur.length;i+=2)nx.push(comb(cur[i],cur[i+1]));cur=nx;}
+  const regD=cur[0];
+  const ff=comb(regD,regD);
+  const chD=comb(ff,ff);
+  winProbs=Array(S).fill(0);
+  for(const[s,p]of Object.entries(chD))winProbs[+s-1]=p;
+  updWpC();
+
+  // Perfect bracket odds
+  const r64p=[];
+  for(let i=0;i<SO.length;i+=2){
+    const a=SO[i],b=SO[i+1],p=wp(skills[a-1],skills[b-1]);
+    r64p.push({[a]:p*p,[b]:(1-p)*(1-p)});
+  }
+  function combP(pA,pB){
+    const r={};
+    for(const[sa,pa]of Object.entries(pA))for(const[sb,pb]of Object.entries(pB)){
+      const a=+sa,b=+sb,pw=wp(skills[a-1],skills[b-1]);
+      r[a]=(r[a]||0)+pa*pb*pw*pw;r[b]=(r[b]||0)+pa*pb*(1-pw)*(1-pw);
+    }return r;
+  }
+  cur=[...r64p];
+  while(cur.length>1){const nx=[];for(let i=0;i<cur.length;i+=2)nx.push(combP(cur[i],cur[i+1]));cur=nx;}
+  const regP=cur[0];
+  const ffP=combP(regP,regP);
+  const chP=combP(ffP,ffP);
+  let perfect=0;for(const v of Object.values(chP))perfect+=v;
+
+  const po=document.getElementById('po'),p1=document.getElementById('p1'),pw2=document.getElementById('pw');
+  if(perfect>0){
+    po.textContent=(perfect*100).toExponential(3)+'%';
+    const oneIn=Math.round(1/perfect);
+    p1.textContent='1 in '+oneIn.toLocaleString();
+    pw2.textContent=humanNum(oneIn);
+  }else{po.textContent='\u22480%';p1.textContent='\u221e';pw2.textContent='';}
+
+  // Upset probability distribution via Monte Carlo (fast, 5000 sims)
+  calcUpsetDist();
+}
+
+function calcUpsetDist(){
+  const SIMS=5000, GAMES=63;
+  const counts=Array(GAMES+1).fill(0);
+  for(let s=0;s<SIMS;s++){
+    let upsets=0;
+    const rw=[];
+    for(let rg=0;rg<4;rg++){
+      const teams=SO.map(sd=>({seed:sd,skill:skills[sd-1]}));
+      const r64=[];
+      for(let i=0;i<16;i+=2){
+        const a=teams[i],b=teams[i+1];
+        const w=Math.random()<wp(a.skill,b.skill)?a:b;
+        if(w.skill<(w===a?b:a).skill)upsets++;
+        r64.push(w);
+      }
+      let cur=r64;
+      while(cur.length>1){
+        const nx=[];
+        for(let i=0;i<cur.length;i+=2){
+          const a=cur[i],b=cur[i+1];
+          const w=Math.random()<wp(a.skill,b.skill)?a:b;
+          if(w.skill<(w===a?b:a).skill)upsets++;
+          nx.push(w);
+        }
+        cur=nx;
+      }
+      rw.push(cur[0]);
+    }
+    // FF: 0v1, 2v3
+    const ffW=[];
+    for(const p of [[0,1],[2,3]]){
+      const a=rw[p[0]],b=rw[p[1]];
+      const w=Math.random()<wp(a.skill,b.skill)?a:b;
+      if(w.skill<(w===a?b:a).skill)upsets++;
+      ffW.push(w);
+    }
+    // Championship
+    const a=ffW[0],b=ffW[1];
+    const w=Math.random()<wp(a.skill,b.skill)?a:b;
+    if(w.skill<(w===a?b:a).skill)upsets++;
+    counts[upsets]++;
+  }
+  // Convert to probability, trim trailing zeros
+  let maxU=0;
+  for(let i=GAMES;i>=0;i--)if(counts[i]>0){maxU=i;break}
+  maxU=Math.min(maxU+2,GAMES);
+  upsetDist=[];
+  for(let i=0;i<=maxU;i++)upsetDist.push({x:i,y:counts[i]/SIMS*100});
+  updUdC();
+}
+
+function humanNum(n){
+  const u=[[1e18,'quintillion'],[1e15,'quadrillion'],[1e12,'trillion'],[1e9,'billion'],[1e6,'million'],[1e3,'thousand']];
+  for(const[v,nm]of u)if(n>=v)return'~'+Math.round(n/v).toLocaleString()+' '+nm;
+  return'~'+n.toLocaleString();
+}
+
+// ── Bracket sim ──
+function mkT(s,r){return{seed:s,region:r,skill:skills[s-1]}}
+function bldInit(){
+  const a=[];
+  for(const r of REGIONS){const t=SO.map(s=>mkT(s,r)),m=[];for(let i=0;i<16;i+=2)m.push({teamA:t[i],teamB:t[i+1],winner:null});a.push({region:r,matchups:m})}
+  return a;
+}
+function simM(m){m.winner=Math.random()<wp(m.teamA.skill,m.teamB.skill)?m.teamA:m.teamB;return m.winner}
+function simR(p){const n=[];for(let i=0;i<p.length;i+=2){const m={teamA:p[i].winner,teamB:p[i+1].winner,winner:null};simM(m);n.push(m)}return n}
+
+function simulateBracket(){
+  const regs=bldInit();br={regions:[],ff:[],ch:null,champ:null};
+  const rw=[];
+  for(const r of regs){const rds=[r.matchups];rds[0].forEach(m=>simM(m));let c=rds[0];while(c.length>1){c=simR(c);rds.push(c)}br.regions.push({region:r.region,rounds:rds});rw.push(c[0].winner)}
+  const f1={teamA:rw[0],teamB:rw[1],winner:null};simM(f1);
+  const f2={teamA:rw[2],teamB:rw[3],winner:null};simM(f2);
+  br.ff=[f1,f2];
+  const ch={teamA:f1.winner,teamB:f2.winner,winner:null};simM(ch);
+  br.ch=ch;br.champ=ch.winner;
+  renderBracket();
+}
+function bldEmpty(){
+  const regs=bldInit();br={regions:[],ff:[],ch:null,champ:null};
+  for(const r of regs)br.regions.push({region:r.region,rounds:[r.matchups]});
+  renderBracket();
+}
+
+// ── Bracket rendering (reusable) ──
+function renderBracket(){renderBracketInto(br,'bc',true)}
+
+function renderBracketInto(data,containerId,showStats){
+  const c=document.getElementById(containerId);c.innerHTML='';
+  const lR=data.regions.slice(0,2),rR=data.regions.slice(2,4);
+  function gather(rl){const rds=[];for(let i=0;i<4;i++){const m=[];for(const r of rl)if(r.rounds[i])m.push(...r.rounds[i]);if(m.length)rds.push(m)}return rds}
+  const lRnds=gather(lR),rRnds=gather(rR);
+  const bd=document.createElement('div');bd.className='bracket';
+
+  for(let i=0;i<lRnds.length;i++){
+    bd.appendChild(mkRC(lRnds[i],RN[i],'l',i===0,i>0,false));
+    if(i<lRnds.length-1)bd.appendChild(mkCC(lRnds[i],'l'));
+  }
+  bd.appendChild(mkCC(lRnds[lRnds.length-1],'l'));
+  if(data.ff.length){
+    bd.appendChild(mkRC(data.ff.slice(0,1),'F4','l',false,true,false));
+    bd.appendChild(mkPT(data.ff[0]));
+  }
+  if(data.ch){
+    const finalCol=mkRC([data.ch],'Final','c',false,true,true);
+    if(data.champ){
+      const banner=document.createElement('div');
+      banner.className='champ-above';
+      banner.innerHTML=`<div class="cl">Champion</div><div class="cn">#${data.champ.seed} ${data.champ.region}</div>`;
+      const rb=finalCol.querySelector('.rb');
+      rb.insertBefore(banner,rb.firstChild);
+    }
+    bd.appendChild(finalCol);
+  }else{
+    const ph=document.createElement('div');ph.className='rcol';ph.style.width='60px';bd.appendChild(ph);
+  }
+  if(data.ff.length){
+    bd.appendChild(mkPT(data.ff[1]));
+    bd.appendChild(mkRC(data.ff.slice(1),'F4','r',false,true,false));
+  }
+  bd.appendChild(mkCC(rRnds[rRnds.length-1],'r'));
+  for(let i=rRnds.length-1;i>=0;i--){
+    if(i<rRnds.length-1)bd.appendChild(mkCC(rRnds[i],'r'));
+    bd.appendChild(mkRC(rRnds[i],RN[i],'r',i===0,i>0,false));
+  }
+  c.appendChild(bd);
+
+  if(showStats){
+    let totalGames=0,totalUpsets=0;
+    function countIn(matchups){for(const m of matchups)if(m.winner){totalGames++;if(isUpset(m))totalUpsets++}}
+    for(const reg of data.regions)for(const rnd of reg.rounds)countIn(rnd);
+    if(data.ff.length)countIn(data.ff);
+    if(data.ch&&data.ch.winner){totalGames++;if(isUpset(data.ch))totalUpsets++}
+    document.getElementById('uCnt').textContent=totalGames>0?totalUpsets:'--';
+    document.getElementById('uPct').textContent=totalGames>0?(totalUpsets/totalGames*100).toFixed(1)+'%':'--';
+  }
+}
+
+function mkRC(matchups,title,side,isFirst,hasIn,noOut){
+  const col=document.createElement('div');col.className='rcol';
+  const t=document.createElement('div');t.className='rt';t.textContent=title;col.appendChild(t);
+  const b=document.createElement('div');b.className='rb';
+  for(const m of matchups){
+    const sl=document.createElement('div');
+    let cls='slot '+(side==='l'?'sl':side==='r'?'sr':'sc');
+    if(hasIn)cls+=' hi';
+    if(noOut)cls+=' sno';
+    sl.className=cls;
+    if(m.winner&&isUpset(m))sl.style.setProperty('--stub-c','var(--upset)');
+    sl.appendChild(mkMU(m));
+    b.appendChild(sl);
+  }
+  col.appendChild(b);return col;
+}
+
+function mkCC(matchups,dir){
+  const col=document.createElement('div');col.className='ccol';
+  const sp=document.createElement('div');sp.className='csp';col.appendChild(sp);
+  const cb=document.createElement('div');cb.className='cb';
+  const nGroups=matchups.length/2;
+  for(let i=0;i<nGroups;i++){
+    const g=document.createElement('div');g.className='cg'+(dir==='r'?' cgr':'');
+    const topM=matchups[2*i],botM=matchups[2*i+1];
+    const topUp=topM&&isUpset(topM),botUp=botM&&isUpset(botM);
+    const at=document.createElement('div');at.className='arm-t'+(topUp?' arm-upset':'');
+    const ab=document.createElement('div');ab.className='arm-b'+(botUp?' arm-upset':'');
+    const ao=document.createElement('div');ao.className='arm-o';
+    g.appendChild(at);g.appendChild(ab);g.appendChild(ao);
+    cb.appendChild(g);
+  }
+  col.appendChild(cb);return col;
+}
+
+function mkPT(m){
+  const col=document.createElement('div');col.className='ccol';
+  const sp=document.createElement('div');sp.className='csp';col.appendChild(sp);
+  const cb=document.createElement('div');cb.className='cb';
+  const g=document.createElement('div');g.className='cg cpt';
+  if(m&&m.winner&&isUpset(m))g.style.setProperty('--line','var(--upset)');
+  cb.appendChild(g);col.appendChild(cb);return col;
+}
+
+function mkMU(m){
+  const d=document.createElement('div');d.className='mu';
+  d.appendChild(mkTM(m.teamA,m));
+  d.appendChild(mkTM(m.teamB,m));
+  d.addEventListener('mouseenter',e=>showTip(e,m));
+  d.addEventListener('mousemove',e=>moveTip(e));
+  d.addEventListener('mouseleave',hideTip);
+  return d;
+}
+
+function mkTM(team,m){
+  const d=document.createElement('div');
+  const isW=m.winner===team,isL=m.winner&&m.winner!==team;
+  d.className='tm'+(isW?' w':'')+(isL?' l':'');
+  d.style.background=hr(getRC(team.region),isW?0.25:isL?0.06:0.15);
+  d.innerHTML=`<span class="rd" style="background:${getRC(team.region)}"></span><span class="sn">${team.seed}</span>`;
+  return d;
+}
+
+// ── Tooltip ──
+function showTip(e,m){
+  const t=document.getElementById('tip'),pA=wp(m.teamA.skill,m.teamB.skill);
+  t.innerHTML=`<div class="tl">Win Probability</div>
+    <div class="tr"><span style="color:${getRC(m.teamA.region)}">#${m.teamA.seed} ${m.teamA.region}</span><span class="tp">${(pA*100).toFixed(1)}%</span></div>
+    <div class="tr"><span style="color:${getRC(m.teamB.region)}">#${m.teamB.seed} ${m.teamB.region}</span><span class="tp">${((1-pA)*100).toFixed(1)}%</span></div>
+    <div style="margin-top:3px;font-size:.6rem;color:var(--dim)">Skills: ${m.teamA.skill} vs ${m.teamB.skill}</div>`;
+  t.style.display='block';moveTip(e);
+}
+function moveTip(e){const t=document.getElementById('tip');let x=e.clientX+12,y=e.clientY-10;if(x+170>innerWidth)x=e.clientX-180;if(y+90>innerHeight)y=e.clientY-90;t.style.left=x+'px';t.style.top=y+'px'}
+function hideTip(){document.getElementById('tip').style.display='none'}
+
+// ── Charts ──
+const sL=Array.from({length:S},(_,i)=>`#${i+1}`);
+function bC(){return skills.map((_,i)=>{const t=i/(S-1);return`rgba(${Math.round(255*(1-t)+78*t)},${Math.round(107*(1-t)+205*t)},${Math.round(53*(1-t)+196*t)},.85)`})}
+
+function lossColors(){
+  return getLossData().map((v,i)=>{
+    if(i===selectedLossSeed-1)return'rgba(100,100,100,.3)';
+    return v>50?`rgba(231,76,60,${0.4+v/200})`:`rgba(46,204,113,${0.4+(100-v)/200})`;
+  });
+}
+
+function initCharts(){
+  Chart.register(ChartDataLabels);
+  const commonScaleX={ticks:{color:'#889',font:{size:8}},grid:{display:false}};
+  const commonGrid={color:'rgba(255,255,255,.04)'};
+
+  skC=new Chart(document.getElementById('skC'),{type:'bar',data:{labels:sL,datasets:[{data:[...skills],backgroundColor:bC(),borderRadius:3,borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#bbb',font:{size:9,weight:'bold'},formatter:v=>v}},
+    scales:{y:{min:0,grace:'15%',ticks:{color:'#667',font:{size:8}},grid:commonGrid},x:commonScaleX}}});
+
+  lsC=new Chart(document.getElementById('lsC'),{type:'bar',data:{labels:sL,datasets:[{data:getLossData(),backgroundColor:lossColors(),borderRadius:3,borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#bbb',font:{size:8},formatter:(v,ctx)=>ctx.dataIndex===selectedLossSeed-1?'--':v.toFixed(1)+'%'}},
+    scales:{y:{min:0,grace:'10%',ticks:{color:'#667',font:{size:8},callback:v=>v+'%'},grid:commonGrid},x:commonScaleX}}});
+
+  wpC=new Chart(document.getElementById('wpC'),{type:'bar',data:{labels:sL,datasets:[{data:winProbs.map(p=>p*100),backgroundColor:'rgba(78,205,196,.7)',borderColor:'rgba(78,205,196,1)',borderWidth:1,borderRadius:3,minBarLength:4}]},
+    options:{responsive:true,maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:false},
+      datalabels:{anchor:'end',align:'end',color:'#bbb',font:{size:8},formatter:v=>v>.3?v.toFixed(1)+'%':''},
+      tooltip:{enabled:true,backgroundColor:'#1e2d3d',borderColor:'#ff6b35',borderWidth:1,titleFont:{size:12},bodyFont:{size:11},
+        callbacks:{
+          title:ctx=>'Seed '+ctx[0].label,
+          label:ctx=>{
+            const pct=ctx.raw;
+            if(pct<=0)return'Win: ~0%';
+            const lines=['Win: '+pct.toFixed(2)+'%'];
+            const oneIn=Math.round(100/pct);
+            lines.push('1 in '+oneIn.toLocaleString()+' ('+humanNum(oneIn)+')');
+            return lines;
+          }
+        }
+      }
+    },
+    scales:{y:{min:0,grace:'15%',ticks:{color:'#667',font:{size:8},callback:v=>v+'%'},grid:commonGrid},x:commonScaleX}}});
+
+  udC=new Chart(document.getElementById('udC'),{type:'bar',data:{labels:[],datasets:[{data:[],borderRadius:3,borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      datalabels:{anchor:'end',align:'end',color:'#bbb',font:{size:8},formatter:v=>v>.5?v.toFixed(1)+'%':''},
+      tooltip:{enabled:true,backgroundColor:'#1e2d3d',borderColor:'#ff6b35',borderWidth:1,titleFont:{size:12},bodyFont:{size:11},
+        callbacks:{title:ctx=>ctx[0].label+' upsets',label:ctx=>ctx.raw.toFixed(2)+'% chance'}}
+    },
+    scales:{y:{min:0,grace:'15%',ticks:{color:'#667',font:{size:8},callback:v=>v+'%'},grid:commonGrid},
+      x:{title:{display:true,text:'Number of Upsets',color:'#889',font:{size:9}},ticks:{color:'#889',font:{size:8}},grid:{display:false}}}}});
+}
+
+function updSkC(){if(!skC)return;skC.data.datasets[0].data=[...skills];skC.data.datasets[0].backgroundColor=bC();skC.update()}
+function updLsC(){if(!lsC)return;lsC.data.datasets[0].data=getLossData();lsC.data.datasets[0].backgroundColor=lossColors();lsC.update()}
+function updWpC(){if(!wpC)return;wpC.data.datasets[0].data=winProbs.map(p=>p*100);wpC.update()}
+function updUdC(){
+  if(!udC)return;
+  udC.data.labels=upsetDist.map(d=>d.x);
+  udC.data.datasets[0].data=upsetDist.map(d=>d.y);
+  udC.data.datasets[0].backgroundColor=upsetDist.map(d=>{
+    const peak=Math.max(...upsetDist.map(v=>v.y));
+    const t=d.y/peak;
+    return`rgba(${Math.round(231*t+78*(1-t))},${Math.round(76*t+205*(1-t))},${Math.round(60*t+196*(1-t))},0.8)`;
+  });
+  udC.update();
+}
+
+// ══════════════════════════════════════════════════
+// ── Historical Data Section ──
+// ══════════════════════════════════════════════════
+let histData=null, histYears=[], selectedYears=new Set();
+let hLsC,hWpC,hUdC, histLossSeed=1;
+const MATCHUP_SEEDS=[[1,16],[8,9],[5,12],[4,13],[6,11],[3,14],[7,10],[2,15]];
+
+async function loadHistData(){
+  try{
+    const resp=await fetch('ncaa_bracket_seeds_1985_2025.json');
+    histData=await resp.json();
+    const years=Object.keys(histData.tournaments).map(Number).sort((a,b)=>a-b);
+    histYears=years;
+    buildYearButtons(years);
+    // Select all by default
+    years.forEach(y=>selectedYears.add(y));
+    document.querySelectorAll('.yr-btn').forEach(b=>b.classList.add('active'));
+    initHistCharts();
+    updateHistCharts();
+  }catch(e){
+    document.getElementById('histInfo').textContent='Failed to load data: '+e.message;
+  }
+}
+
+function buildYearButtons(years){
+  const grid=document.getElementById('yrGrid');
+  grid.innerHTML='';
+  years.forEach(y=>{
+    const b=document.createElement('button');
+    b.className='yr-btn';
+    b.textContent=y;
+    b.dataset.year=y;
+    b.addEventListener('click',()=>{
+      if(selectedYears.has(y))selectedYears.delete(y);
+      else selectedYears.add(y);
+      b.classList.toggle('active');
+      updateHistCharts();
+    });
+    grid.appendChild(b);
+  });
+  // Hist loss seed selector
+  const sel=document.getElementById('histLossSel');
+  sel.innerHTML='';
+  for(let i=1;i<=16;i++){const o=document.createElement('option');o.value=i;o.textContent='#'+i;sel.appendChild(o)}
+  sel.addEventListener('change',function(){histLossSeed=+this.value;updateHistCharts()});
+  // Bracket year selector
+  const bsel=document.getElementById('histYearBracketSel');
+  years.forEach(y=>{const o=document.createElement('option');o.value=y;o.textContent=y;bsel.appendChild(o)});
+  bsel.addEventListener('change',function(){
+    if(!this.value){document.getElementById('histBc').innerHTML='';return}
+    const hbr=buildHistBracket(+this.value);
+    if(hbr)renderBracketInto(hbr,'histBc',false);
+  });
+  // Build initial hypothetical bracket
+  buildHypoBracket();
+}
+
+// ── Hypothetical Bracket (user picks winners based on historical odds) ──
+let hypoData=null;
+const EMPTY_TEAM={seed:0,region:'',skill:0};
+
+function buildHypoBracket(){
+  const fourColors=['#e74c3c','#3498db','#f1c40f','#2ecc71'];
+  REGIONS.forEach((rn,i)=>{if(!RC[rn])RC[rn]=fourColors[i]});
+  const regData=[];
+  for(const region of REGIONS){
+    // R64: 8 real matchups
+    const r64m=[];
+    for(let i=0;i<8;i++){
+      const sA=MATCHUP_SEEDS[i][0],sB=MATCHUP_SEEDS[i][1];
+      r64m.push({teamA:{seed:sA,region,skill:100-sA},teamB:{seed:sB,region,skill:100-sB},winner:null});
+    }
+    // R32: 4 empty slots
+    const r32m=[];
+    for(let i=0;i<4;i++)r32m.push({teamA:null,teamB:null,winner:null});
+    // S16: 2 empty slots
+    const s16m=[];
+    for(let i=0;i<2;i++)s16m.push({teamA:null,teamB:null,winner:null});
+    // E8: 1 empty slot
+    const e8m=[{teamA:null,teamB:null,winner:null}];
+    regData.push({region,rounds:[r64m,r32m,s16m,e8m]});
+  }
+  // FF: 2 empty, Championship: 1 empty
+  hypoData={regions:regData,
+    ff:[{teamA:null,teamB:null,winner:null},{teamA:null,teamB:null,winner:null}],
+    ch:{teamA:null,teamB:null,winner:null},champ:null};
+  renderHypoBracket();
+}
+
+function showHypoBracket(){
+  document.getElementById('hypoBc').style.display='block';
+  document.getElementById('hypoToggle').style.display='none';
+  document.getElementById('hypoHideBtn').style.display='inline-block';
+  document.getElementById('hypoResetBtn').style.display='inline-block';
+  document.getElementById('hypoChalkBtn').style.display='inline-block';
+  if(!hypoData)buildHypoBracket();
+}
+function hideHypoBracket(){
+  document.getElementById('hypoBc').style.display='none';
+  document.getElementById('hypoHideBtn').style.display='none';
+  document.getElementById('hypoChalkBtn').style.display='none';
+  document.getElementById('hypoResetBtn').style.display='none';
+  document.getElementById('hypoToggle').style.display='inline-block';
+  document.getElementById('hypoToggle').textContent=hypoData?'Show Bracket':'Create Hypothetical Bracket';
+}
+function resetHypoBracket(){buildHypoBracket()}
+
+function hypoNoUpsets(){
+  // Reset first
+  buildHypoBracket();
+  // For each region, pick higher seed (lower number) through all rounds
+  for(let ri=0;ri<4;ri++){
+    const reg=hypoData.regions[ri];
+    for(let rdi=0;rdi<4;rdi++){
+      for(let mi=0;mi<reg.rounds[rdi].length;mi++){
+        const m=reg.rounds[rdi][mi];
+        if(!m.teamA||!m.teamB)continue;
+        if(m.teamA.seed<m.teamB.seed)m.winner=m.teamA;
+        else if(m.teamB.seed<m.teamA.seed)m.winner=m.teamB;
+        else m.winner=Math.random()<0.5?m.teamA:m.teamB;
+      }
+      // Propagate after each round so next round gets filled
+      propagateHypoRegion(ri);
+    }
+  }
+  // Propagate into FF
+  propagateHypoFF();
+  // Pick FF winners (higher seed = lower number)
+  for(let i=0;i<2;i++){
+    const m=hypoData.ff[i];
+    if(!m.teamA||!m.teamB)continue;
+    if(m.teamA.seed<m.teamB.seed)m.winner=m.teamA;
+    else if(m.teamB.seed<m.teamA.seed)m.winner=m.teamB;
+    else m.winner=Math.random()<0.5?m.teamA:m.teamB;
+  }
+  // Fill championship
+  hypoData.ch.teamA=hypoData.ff[0].winner||null;
+  hypoData.ch.teamB=hypoData.ff[1].winner||null;
+  if(hypoData.ch.teamA&&hypoData.ch.teamB){
+    const m=hypoData.ch;
+    if(m.teamA.seed<m.teamB.seed)m.winner=m.teamA;
+    else if(m.teamB.seed<m.teamA.seed)m.winner=m.teamB;
+    else m.winner=Math.random()<0.5?m.teamA:m.teamB;
+    hypoData.champ=m.winner;
+  }
+  renderHypoBracket();
+}
+
+function getHistOdds(seedA,seedB){
+  if(!histData||selectedYears.size===0||!seedA||!seedB)return{pA:0.5,pB:0.5,trials:0};
+  const{wins}=extractMatchups();
+  const wA=wins[seedA][seedB]||0;
+  const wB=wins[seedB][seedA]||0;
+  const total=wA+wB;
+  if(total===0)return{pA:0.5,pB:0.5,trials:0};
+  return{pA:wA/total,pB:wB/total,trials:total};
+}
+
+function hypoPickRegion(regionIdx,roundIdx,matchIdx,teamKey){
+  const reg=hypoData.regions[regionIdx];
+  const m=reg.rounds[roundIdx][matchIdx];
+  if(!m||!m.teamA||!m.teamB)return; // can't pick if slots empty
+  const picked=teamKey==='A'?m.teamA:m.teamB;
+  m.winner=picked;
+  // Clear only the downstream chain from this specific game
+  clearHypoDownstream(regionIdx,roundIdx,matchIdx);
+  propagateHypoRegion(regionIdx);
+  propagateHypoFF();
+  renderHypoBracket();
+}
+
+function hypoPickFF(ffIdx,teamKey){
+  const m=hypoData.ff[ffIdx];
+  if(!m||!m.teamA||!m.teamB)return;
+  m.winner=teamKey==='A'?m.teamA:m.teamB;
+  // Clear championship
+  hypoData.ch.teamA=hypoData.ff[0].winner;
+  hypoData.ch.teamB=hypoData.ff[1].winner;
+  hypoData.ch.winner=null;
+  hypoData.champ=null;
+  renderHypoBracket();
+}
+
+function hypoPickChamp(teamKey){
+  const m=hypoData.ch;
+  if(!m||!m.teamA||!m.teamB)return;
+  m.winner=teamKey==='A'?m.teamA:m.teamB;
+  hypoData.champ=m.winner;
+  renderHypoBracket();
+}
+
+function clearHypoDownstream(regionIdx,roundIdx,matchIdx){
+  const reg=hypoData.regions[regionIdx];
+  // Only clear the specific chain of matchups fed by this game
+  let idx=matchIdx;
+  for(let r=roundIdx+1;r<4;r++){
+    idx=Math.floor(idx/2);
+    const m=reg.rounds[r][idx];
+    if(!m)break;
+    m.teamA=null;m.teamB=null;m.winner=null;
+  }
+  // Clear FF slot that this region feeds into (regions 0,1 -> ff[0]; regions 2,3 -> ff[1])
+  const ffIdx=regionIdx<2?0:1;
+  hypoData.ff[ffIdx].teamA=null;hypoData.ff[ffIdx].teamB=null;hypoData.ff[ffIdx].winner=null;
+  // Clear championship
+  hypoData.ch.teamA=null;hypoData.ch.teamB=null;hypoData.ch.winner=null;
+  hypoData.champ=null;
+}
+
+function propagateHypoRegion(regionIdx){
+  const reg=hypoData.regions[regionIdx];
+  for(let r=0;r<3;r++){
+    const curr=reg.rounds[r];
+    const next=reg.rounds[r+1];
+    for(let i=0;i<curr.length;i+=2){
+      const ni=i/2;
+      const wA=curr[i].winner;
+      const wB=curr[i+1]?curr[i+1].winner:null;
+      next[ni].teamA=wA||null;
+      next[ni].teamB=wB||null;
+      // If a team changed, winner may be invalid
+      if(next[ni].winner){
+        if(next[ni].winner!==next[ni].teamA&&next[ni].winner!==next[ni].teamB)next[ni].winner=null;
+      }
+    }
+  }
+}
+
+function propagateHypoFF(){
+  // Feed E8 winners into FF
+  const regs=hypoData.regions;
+  hypoData.ff[0].teamA=regs[0].rounds[3][0].winner||null;
+  hypoData.ff[0].teamB=regs[1].rounds[3][0].winner||null;
+  if(hypoData.ff[0].winner&&hypoData.ff[0].winner!==hypoData.ff[0].teamA&&hypoData.ff[0].winner!==hypoData.ff[0].teamB)hypoData.ff[0].winner=null;
+  hypoData.ff[1].teamA=regs[2].rounds[3][0].winner||null;
+  hypoData.ff[1].teamB=regs[3].rounds[3][0].winner||null;
+  if(hypoData.ff[1].winner&&hypoData.ff[1].winner!==hypoData.ff[1].teamA&&hypoData.ff[1].winner!==hypoData.ff[1].teamB)hypoData.ff[1].winner=null;
+  // Feed FF winners into championship
+  hypoData.ch.teamA=hypoData.ff[0].winner||null;
+  hypoData.ch.teamB=hypoData.ff[1].winner||null;
+  if(hypoData.ch.winner&&hypoData.ch.winner!==hypoData.ch.teamA&&hypoData.ch.winner!==hypoData.ch.teamB){hypoData.ch.winner=null;hypoData.champ=null}
+}
+
+function renderHypoBracket(){
+  const c=document.getElementById('hypoBc');c.innerHTML='';
+  const lR=hypoData.regions.slice(0,2),rR=hypoData.regions.slice(2,4);
+  // Gather rounds: always 4 rounds per side (8,4,2,1 matchups from 2 regions combined)
+  function gatherFixed(rl){
+    const rds=[];
+    for(let i=0;i<4;i++){
+      const m=[];
+      for(const r of rl)m.push(...r.rounds[i]);
+      rds.push(m);
+    }
+    return rds;
+  }
+  const lRnds=gatherFixed(lR),rRnds=gatherFixed(rR);
+  const bd=document.createElement('div');bd.className='bracket';
+
+  // Left side: R64, conn, R32, conn, S16, conn, E8, conn
+  for(let i=0;i<4;i++){
+    bd.appendChild(mkHypoRC(lRnds[i],RN[i],'l',i===0,i>0,false));
+    if(i<3)bd.appendChild(mkHypoCC(lRnds[i],'l'));
+  }
+  bd.appendChild(mkHypoCC(lRnds[3],'l'));
+  // FF left
+  bd.appendChild(mkHypoRC([hypoData.ff[0]],'F4','l',false,true,false,'ff',0));
+  bd.appendChild(mkHypoPT(hypoData.ff[0]));
+  // Championship center
+  const finalCol=mkHypoRC([hypoData.ch],'Final','c',false,true,true,'ch',0);
+  if(hypoData.champ){
+    const banner=document.createElement('div');
+    banner.className='champ-above';
+    banner.innerHTML='<div class="cl">Champion</div><div class="cn">#'+hypoData.champ.seed+' '+hypoData.champ.region+'</div>';
+    const rb=finalCol.querySelector('.rb');
+    rb.insertBefore(banner,rb.firstChild);
+  }
+  bd.appendChild(finalCol);
+  // FF right
+  bd.appendChild(mkHypoPT(hypoData.ff[1]));
+  bd.appendChild(mkHypoRC([hypoData.ff[1]],'F4','r',false,true,false,'ff',1));
+  // Right side: E8, conn, S16, conn, R32, conn, R64
+  bd.appendChild(mkHypoCC(rRnds[3],'r'));
+  for(let i=3;i>=0;i--){
+    if(i<3)bd.appendChild(mkHypoCC(rRnds[i],'r'));
+    bd.appendChild(mkHypoRC(rRnds[i],RN[i],'r',i===0,i>0,false));
+  }
+  c.appendChild(bd);
+}
+
+function mkHypoCC(matchups,dir){
+  // Same as mkCC but handles null teams gracefully
+  const col=document.createElement('div');col.className='ccol';
+  const sp=document.createElement('div');sp.className='csp';col.appendChild(sp);
+  const cb=document.createElement('div');cb.className='cb';
+  const nGroups=matchups.length/2;
+  for(let i=0;i<nGroups;i++){
+    const g=document.createElement('div');g.className='cg'+(dir==='r'?' cgr':'');
+    const topM=matchups[2*i],botM=matchups[2*i+1];
+    const topUp=topM&&topM.winner&&topM.teamA&&topM.teamB&&isUpset(topM);
+    const botUp=botM&&botM.winner&&botM.teamA&&botM.teamB&&isUpset(botM);
+    const at=document.createElement('div');at.className='arm-t'+(topUp?' arm-upset':'');
+    const ab=document.createElement('div');ab.className='arm-b'+(botUp?' arm-upset':'');
+    const ao=document.createElement('div');ao.className='arm-o';
+    g.appendChild(at);g.appendChild(ab);g.appendChild(ao);
+    cb.appendChild(g);
+  }
+  col.appendChild(cb);return col;
+}
+
+function mkHypoPT(m){
+  const col=document.createElement('div');col.className='ccol';
+  const sp=document.createElement('div');sp.className='csp';col.appendChild(sp);
+  const cb=document.createElement('div');cb.className='cb';
+  const g=document.createElement('div');g.className='cg cpt';
+  cb.appendChild(g);col.appendChild(cb);return col;
+}
+
+function mkHypoRC(matchups,title,side,isFirst,hasIn,noOut,special,specialIdx){
+  const col=document.createElement('div');col.className='rcol';
+  const t=document.createElement('div');t.className='rt';t.textContent=title;col.appendChild(t);
+  const b=document.createElement('div');b.className='rb';
+  for(let mi=0;mi<matchups.length;mi++){
+    const m=matchups[mi];
+    const sl=document.createElement('div');
+    let cls='slot '+(side==='l'?'sl':side==='r'?'sr':'sc');
+    if(hasIn)cls+=' hi';
+    if(noOut)cls+=' sno';
+    sl.className=cls;
+    if(m.winner&&m.teamA&&m.teamB&&isUpset(m))sl.style.setProperty('--stub-c','var(--upset)');
+    sl.appendChild(mkHypoMU(m,special,specialIdx,mi));
+    b.appendChild(sl);
+  }
+  col.appendChild(b);return col;
+}
+
+function mkHypoMU(m,special,specialIdx,mi){
+  const d=document.createElement('div');d.className='mu hypo';
+  if(m.winner)d.classList.add('locked');
+
+  const tAd=mkHypoTM(m.teamA,m,'A');
+  const tBd=mkHypoTM(m.teamB,m,'B');
+
+  // Click handlers
+  tAd.addEventListener('click',e=>{
+    e.stopPropagation();
+    if(!m.teamA)return;
+    if(special==='ff')hypoPickFF(specialIdx,'A');
+    else if(special==='ch')hypoPickChamp('A');
+    else handleHypoRegionPick(m,'A');
+  });
+  tBd.addEventListener('click',e=>{
+    e.stopPropagation();
+    if(!m.teamB)return;
+    if(special==='ff')hypoPickFF(specialIdx,'B');
+    else if(special==='ch')hypoPickChamp('B');
+    else handleHypoRegionPick(m,'B');
+  });
+
+  d.appendChild(tAd);
+  d.appendChild(tBd);
+
+  // Tooltip only if both teams present
+  d.addEventListener('mouseenter',e=>showHypoTip(e,m));
+  d.addEventListener('mousemove',e=>moveTip(e));
+  d.addEventListener('mouseleave',hideTip);
+  return d;
+}
+
+function handleHypoRegionPick(m,teamKey){
+  for(let ri=0;ri<hypoData.regions.length;ri++){
+    const reg=hypoData.regions[ri];
+    for(let rdi=0;rdi<reg.rounds.length;rdi++){
+      const rnd=reg.rounds[rdi];
+      for(let mi=0;mi<rnd.length;mi++){
+        if(rnd[mi]===m){hypoPickRegion(ri,rdi,mi,teamKey);return}
+      }
+    }
+  }
+}
+
+function mkHypoTM(team,m,key){
+  const d=document.createElement('div');
+  if(!team){
+    // Empty slot
+    d.className='tm';
+    d.style.background='rgba(42,58,74,0.2)';
+    d.innerHTML='<span class="rd" style="background:#445"></span><span class="sn" style="color:#556;font-style:italic">TBD</span>';
+    return d;
+  }
+  const isW=m.winner===team,isL=m.winner&&m.winner!==team;
+  d.className='tm'+(isW?' pick':'')+(isL?' elim':'');
+  d.style.background=hr(getRC(team.region),isW?0.25:isL?0.06:0.15);
+  d.innerHTML='<span class="rd" style="background:'+getRC(team.region)+'"></span><span class="sn">'+team.seed+'</span>';
+  return d;
+}
+
+function showHypoTip(e,m){
+  const t=document.getElementById('tip');
+  if(!m.teamA||!m.teamB){
+    t.innerHTML='<div class="tl" style="color:var(--dim)">Waiting for earlier picks...</div>';
+    t.style.display='block';moveTip(e);return;
+  }
+  const odds=getHistOdds(m.teamA.seed,m.teamB.seed);
+  const pAstr=(odds.pA*100).toFixed(1);
+  const pBstr=(odds.pB*100).toFixed(1);
+  t.innerHTML='<div class="tl">Historical Win Rate</div>'+
+    '<div class="tr"><span style="color:'+getRC(m.teamA.region)+'">#'+m.teamA.seed+' '+m.teamA.region+'</span><span class="tp">'+pAstr+'%</span></div>'+
+    '<div class="tr"><span style="color:'+getRC(m.teamB.region)+'">#'+m.teamB.seed+' '+m.teamB.region+'</span><span class="tp">'+pBstr+'%</span></div>'+
+    '<div style="margin-top:4px;font-size:.6rem;color:var(--dim);border-top:1px solid var(--border);padding-top:3px">'+odds.trials+' historical matchup'+(odds.trials!==1?'s':'')+' in selected years</div>';
+  t.style.display='block';moveTip(e);
+}
+
+// Build bracket data from historical JSON for a given year
+function buildHistBracket(year){
+  const t=histData.tournaments[year];
+  if(!t)return null;
+  const regionNames=t.regions;
+  // Assign colors to the 4 regions for this year
+  const fourColors=['#e74c3c','#3498db','#f1c40f','#2ecc71'];
+  regionNames.forEach((rn,i)=>{if(!RC[rn])RC[rn]=fourColors[i%4]});
+
+  // Build each region's bracket data
+  const allRegData={};
+  for(const rName of regionNames){
+    const reg=t[rName];
+    if(!reg)return null;
+    const r64m=[];
+    for(let i=0;i<8;i++){
+      const sA=MATCHUP_SEEDS[i][0],sB=MATCHUP_SEEDS[i][1];
+      const wSeed=reg.r64_winners[i];
+      const tA={seed:sA,region:rName,skill:100-sA};
+      const tB={seed:sB,region:rName,skill:100-sB};
+      r64m.push({teamA:tA,teamB:tB,winner:wSeed===sA?tA:tB});
+    }
+    const r32m=[];
+    for(let i=0;i<4;i++){
+      const tA=r64m[2*i].winner,tB=r64m[2*i+1].winner;
+      const wSeed=reg.r32_winners[i];
+      r32m.push({teamA:tA,teamB:tB,winner:wSeed===tA.seed?tA:tB});
+    }
+    const s16m=[];
+    for(let i=0;i<2;i++){
+      const tA=r32m[2*i].winner,tB=r32m[2*i+1].winner;
+      const wSeed=reg.s16_winners[i];
+      s16m.push({teamA:tA,teamB:tB,winner:wSeed===tA.seed?tA:tB});
+    }
+    const tA=s16m[0].winner,tB=s16m[1].winner;
+    const e8m=[{teamA:tA,teamB:tB,winner:reg.e8_winner===tA.seed?tA:tB}];
+    allRegData[rName]={region:rName,rounds:[r64m,r32m,s16m,e8m]};
+  }
+
+  // Determine region ordering from F4 pairings:
+  // ff[0]'s two regions go on the LEFT side (indices 0,1)
+  // ff[1]'s two regions go on the RIGHT side (indices 2,3)
+  let orderedRegions;
+  if(t.f4&&t.f4.length===2){
+    const leftR1=t.f4[0].matchup[0].region, leftR2=t.f4[0].matchup[1].region;
+    const rightR1=t.f4[1].matchup[0].region, rightR2=t.f4[1].matchup[1].region;
+    orderedRegions=[leftR1,leftR2,rightR1,rightR2];
+  }else{
+    orderedRegions=regionNames;
+  }
+  const regData=orderedRegions.map(rn=>allRegData[rn]);
+
+  // F4
+  const ff=[];
+  if(t.f4&&t.f4.length===2){
+    for(let i=0;i<2;i++){
+      const g=t.f4[i];
+      const tA=findRegWinner(regData,g.matchup[0].region);
+      const tB=findRegWinner(regData,g.matchup[1].region);
+      const wReg=g.winner.region;
+      ff.push({teamA:tA,teamB:tB,winner:tA.region===wReg?tA:tB});
+    }
+  }
+  // Championship
+  let ch=null,champ=null;
+  if(t.championship&&ff.length===2){
+    const tA=ff[0].winner,tB=ff[1].winner;
+    const wReg=t.championship.winner.region;
+    ch={teamA:tA,teamB:tB,winner:tA.region===wReg?tA:tB};
+    champ=ch.winner;
+  }
+  return{regions:regData,ff,ch,champ};
+}
+
+function findRegWinner(regData,regionName){
+  for(const r of regData){
+    if(r.region===regionName){
+      const e8=r.rounds[3];
+      if(e8&&e8[0])return e8[0].winner;
+    }
+  }
+  return{seed:0,region:regionName,skill:0};
+}
+
+function histSelectAll(){histYears.forEach(y=>selectedYears.add(y));syncYrBtns();updateHistCharts()}
+function histSelectNone(){selectedYears.clear();syncYrBtns();updateHistCharts()}
+function histSelectRange(a,b){selectedYears.clear();histYears.forEach(y=>{if(y>=a&&y<=b)selectedYears.add(y)});syncYrBtns();updateHistCharts()}
+function syncYrBtns(){document.querySelectorAll('.yr-btn').forEach(b=>{b.classList.toggle('active',selectedYears.has(+b.dataset.year))})}
+
+// Extract all seed-vs-seed matchup results from selected years
+function extractMatchups(){
+  // wins[a][b] = number of times seed a beat seed b
+  const wins=Array.from({length:17},()=>Array(17).fill(0));
+  const champWins=Array(17).fill(0);
+  let totalTournaments=0;
+  const upsetsPerTournament=[];
+
+  for(const y of selectedYears){
+    const t=histData.tournaments[y];
+    if(!t)continue;
+    totalTournaments++;
+    let upsets=0;
+    const regionNames=t.regions;
+
+    for(const regName of regionNames){
+      const reg=t[regName];
+      if(!reg)continue;
+
+      // R64: 8 matchups, known seeds
+      for(let i=0;i<8;i++){
+        const sA=MATCHUP_SEEDS[i][0], sB=MATCHUP_SEEDS[i][1];
+        const winner=reg.r64_winners[i];
+        const loser=winner===sA?sB:sA;
+        wins[winner][loser]++;
+        if(winner>loser)upsets++; // higher seed number = lower ranked = upset
+      }
+
+      // R32: 4 matchups. Need to figure out who played whom.
+      // R32 matchup i: winner of R64 matchup 2i vs winner of R64 matchup 2i+1
+      for(let i=0;i<4;i++){
+        const sA=reg.r64_winners[2*i], sB=reg.r64_winners[2*i+1];
+        const winner=reg.r32_winners[i];
+        const loser=winner===sA?sB:sA;
+        wins[winner][loser]++;
+        if(sA!==sB){
+          const fav=Math.min(sA,sB);
+          if(winner!==fav)upsets++;
+        }
+      }
+
+      // S16: 2 matchups. S16[0] = R32 winner 0 vs R32 winner 1, S16[1] = R32 winner 2 vs R32 winner 3
+      for(let i=0;i<2;i++){
+        const sA=reg.r32_winners[2*i], sB=reg.r32_winners[2*i+1];
+        const winner=reg.s16_winners[i];
+        const loser=winner===sA?sB:sA;
+        wins[winner][loser]++;
+        if(sA!==sB){
+          const fav=Math.min(sA,sB);
+          if(winner!==fav)upsets++;
+        }
+      }
+
+      // E8: 1 matchup. S16 winner 0 vs S16 winner 1
+      {
+        const sA=reg.s16_winners[0], sB=reg.s16_winners[1];
+        const winner=reg.e8_winner;
+        const loser=winner===sA?sB:sA;
+        wins[winner][loser]++;
+        if(sA!==sB){
+          const fav=Math.min(sA,sB);
+          if(winner!==fav)upsets++;
+        }
+      }
+    }
+
+    // F4: 2 games
+    if(t.f4){
+      for(const game of t.f4){
+        const sA=game.matchup[0].seed, sB=game.matchup[1].seed;
+        const wS=game.winner.seed;
+        const lS=wS===sA?sB:sA;
+        wins[wS][lS]++;
+        if(sA!==sB){if(wS>Math.min(sA,sB))upsets++;}
+      }
+    }
+
+    // Championship
+    if(t.championship){
+      const sA=t.championship.matchup[0].seed, sB=t.championship.matchup[1].seed;
+      const wS=t.championship.winner.seed;
+      const lS=wS===sA?sB:sA;
+      wins[wS][lS]++;
+      champWins[wS]++;
+      if(sA!==sB){if(wS>Math.min(sA,sB))upsets++;}
+    }
+
+    upsetsPerTournament.push(upsets);
+  }
+
+  return{wins,champWins,totalTournaments,upsetsPerTournament};
+}
+
+function updateHistCharts(){
+  if(!histData)return;
+  const{wins,champWins,totalTournaments,upsetsPerTournament}=extractMatchups();
+
+  document.getElementById('histInfo').textContent=
+    selectedYears.size===0?'No years selected':
+    `${selectedYears.size} tournament${selectedYears.size>1?'s':''} selected (${totalTournaments*63} games)`;
+
+  // 1) Historical loss probability for selected seed
+  const lossData=[];
+  for(let opp=1;opp<=16;opp++){
+    if(opp===histLossSeed){lossData.push(0);continue;}
+    const w=wins[histLossSeed][opp]||0;
+    const l=wins[opp][histLossSeed]||0;
+    const total=w+l;
+    lossData.push(total>0?(l/total)*100:0);
+  }
+  hLsC.data.datasets[0].data=lossData;
+  hLsC.data.datasets[0].backgroundColor=lossData.map((v,i)=>{
+    if(i===histLossSeed-1)return'rgba(100,100,100,.3)';
+    return v>50?`rgba(231,76,60,${.4+v/200})`:`rgba(46,204,113,${.4+(100-v)/200})`;
+  });
+  hLsC.options.plugins.datalabels.formatter=(v,ctx)=>{
+    if(ctx.dataIndex===histLossSeed-1)return'--';
+    const opp=ctx.dataIndex+1;
+    const w=wins[histLossSeed][opp]||0,l=wins[opp][histLossSeed]||0,t=w+l;
+    return t>0?v.toFixed(1)+'%\n('+l+'/'+t+')':'N/A';
+  };
+  hLsC.update();
+
+  // 2) Historical tournament win % by seed
+  const winPctData=[];
+  for(let s=1;s<=16;s++)winPctData.push(totalTournaments>0?(champWins[s]/totalTournaments)*100:0);
+  hWpC.data.datasets[0].data=winPctData;
+  hWpC.update();
+
+  // 3) Upset distribution (raw counts)
+  document.getElementById('hUdTitle').textContent='Historical Upset Distribution per Tournament ('+upsetsPerTournament.length+' year'+(upsetsPerTournament.length!==1?'s':'')+')';
+  if(upsetsPerTournament.length>0){
+    const maxU=Math.max(...upsetsPerTournament);
+    const buckets=Array(maxU+1).fill(0);
+    upsetsPerTournament.forEach(u=>buckets[u]++);
+    const labels=[],data=[],colors=[];
+    const peak=Math.max(...buckets);
+    for(let i=0;i<=maxU;i++){
+      labels.push(i);
+      data.push(buckets[i]);
+      const t=peak>0?buckets[i]/peak:0;
+      colors.push(`rgba(${Math.round(231*t+78*(1-t))},${Math.round(76*t+205*(1-t))},${Math.round(60*t+196*(1-t))},.8)`);
+    }
+    hUdC.data.labels=labels;
+    hUdC.data.datasets[0].data=data;
+    hUdC.data.datasets[0].backgroundColor=colors;
+  }else{
+    hUdC.data.labels=[];hUdC.data.datasets[0].data=[];
+  }
+  hUdC.update();
+}
+
+function initHistCharts(){
+  const csx={ticks:{color:'#889',font:{size:8}},grid:{display:false}};
+  const cg={color:'rgba(255,255,255,.04)'};
+
+  hLsC=new Chart(document.getElementById('hLsC'),{type:'bar',data:{labels:sL,datasets:[{data:Array(16).fill(0),borderRadius:3,borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#bbb',font:{size:7},textAlign:'center'}},
+    scales:{y:{min:0,grace:'15%',ticks:{color:'#667',font:{size:8},callback:v=>v+'%'},grid:cg},x:csx}}});
+
+  hWpC=new Chart(document.getElementById('hWpC'),{type:'bar',data:{labels:sL,datasets:[{data:Array(16).fill(0),backgroundColor:'rgba(78,205,196,.7)',borderColor:'rgba(78,205,196,1)',borderWidth:1,borderRadius:3,minBarLength:3}]},
+    options:{responsive:true,maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:false},
+      datalabels:{anchor:'end',align:'end',color:'#bbb',font:{size:8},formatter:v=>v>.5?v.toFixed(1)+'%':''},
+      tooltip:{enabled:true,backgroundColor:'#1e2d3d',borderColor:'#ff6b35',borderWidth:1,titleFont:{size:12},bodyFont:{size:11},
+        callbacks:{title:ctx=>'Seed '+ctx[0].label,label:ctx=>{
+          const pct=ctx.raw;if(pct<=0)return'0 championships';
+          return[pct.toFixed(1)+'% of tournaments',Math.round(pct*selectedYears.size/100)+' championship(s)'];
+        }}}
+    },
+    scales:{y:{min:0,grace:'15%',ticks:{color:'#667',font:{size:8},callback:v=>v+'%'},grid:cg},x:csx}}});
+
+  hUdC=new Chart(document.getElementById('hUdC'),{type:'bar',data:{labels:[],datasets:[{data:[],borderRadius:3,borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      datalabels:{anchor:'end',align:'end',color:'#bbb',font:{size:8},formatter:v=>v>0?v:''},
+      tooltip:{enabled:true,backgroundColor:'#1e2d3d',borderColor:'#ff6b35',borderWidth:1,titleFont:{size:12},bodyFont:{size:11},
+        callbacks:{title:ctx=>ctx[0].label+' upsets',label:ctx=>ctx.raw+' tournament'+(ctx.raw!==1?'s':'')}}
+    },
+    scales:{y:{min:0,grace:'15%',ticks:{color:'#667',font:{size:8},stepSize:1},grid:cg,title:{display:true,text:'Occurrences',color:'#889',font:{size:9}}},
+      x:{title:{display:true,text:'Upsets per Tournament',color:'#889',font:{size:9}},ticks:{color:'#889',font:{size:8}},grid:{display:false}}}}});
+}
+
+// ── Init ──
+compSkills();initCharts();updEq();setupCtrl();bldEmpty();calcTheoretical();
+loadHistData();
+</script>
+</body>
+</html>
