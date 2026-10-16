@@ -353,8 +353,8 @@
           9,
           5,
           13,
-          14,
           6,
+          14,
           7,
           2
         ],
@@ -630,8 +630,8 @@
           9,
           5,
           4,
-          14,
           11,
+          14,
           7,
           2
         ],
@@ -1620,24 +1620,24 @@
         {
           "matchup": [
             {
-              "seed": 4,
-              "region": "East"
+              "seed": 1,
+              "region": "West"
             },
             {
-              "seed": 2,
-              "region": "Midwest"
+              "seed": 4,
+              "region": "East"
             }
           ],
           "winner": {
-            "seed": 4,
-            "region": "East"
+            "seed": 1,
+            "region": "West"
           }
         },
         {
           "matchup": [
             {
-              "seed": 1,
-              "region": "West"
+              "seed": 2,
+              "region": "Midwest"
             },
             {
               "seed": 2,
@@ -1645,8 +1645,8 @@
             }
           ],
           "winner": {
-            "seed": 1,
-            "region": "West"
+            "seed": 2,
+            "region": "Midwest"
           }
         }
       ],
@@ -1658,7 +1658,7 @@
           },
           {
             "seed": 2,
-            "region": "Southeast"
+            "region": "Midwest"
           }
         ],
         "winner": {
@@ -3097,8 +3097,8 @@
         "r64_winners": [
           1,
           9,
-          4,
           12,
+          4,
           11,
           3,
           7,
