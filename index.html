@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>March Madness Bracket Simulator</title>
+<meta name="description" content="Explore how every NCAA tournament seed has actually done since 1985, then build your own bracket or let a tunable model fill one in for you.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
@@ -58,8 +60,10 @@ button:active{transform:scale(.97)}
 .rleg .d{width:7px;height:7px;border-radius:50%}
 /* Bracket row: bracket + stats side by side */
 .bracket-row{display:flex;align-items:flex-start;justify-content:center;gap:12px;padding:0 8px 8px}
-.bsec{flex:1;min-width:0;max-width:1200px}
+.bsec{flex:1;min-width:0;max-width:1200px;overflow-x:auto}
 .bracket{display:flex;align-items:stretch;justify-content:center;height:560px;width:100%}
+/* Narrow screens: keep round columns at full width and scroll, instead of squeezing matchups on top of each other */
+@media(max-width:899px){.bracket{justify-content:flex-start}.bracket>:first-child{margin-left:auto}.bracket>:last-child{margin-right:auto}.bracket .rcol{flex-shrink:0}}
 .rcol{display:flex;flex-direction:column;min-width:0;flex-shrink:1}
 .rt{text-align:center;font-size:0.58rem;color:var(--dim);font-weight:700;text-transform:uppercase;letter-spacing:.5px;height:14px;line-height:14px;white-space:nowrap}
 .rb{flex:1;display:flex;flex-direction:column}
@@ -137,7 +141,7 @@ button:active{transform:scale(.97)}
     <div class="cw">
       <div class="cw-hdr">
         <h3>Historical P(Loss) for Seed</h3>
-        <select id="histLossSel"></select>
+        <select id="histLossSel" aria-label="Seed for historical loss chart"></select>
         <h3>vs Each Opponent (from real matchups)</h3>
       </div>
       <canvas id="hLsC"></canvas>
@@ -147,7 +151,7 @@ button:active{transform:scale(.97)}
   </div>
   <div style="text-align:center;margin:10px 0 4px">
     <label style="font-size:.78rem;color:var(--dim)">View Bracket for Year: </label>
-    <select id="histYearBracketSel" style="background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--accent);padding:3px 8px;font-size:.8rem;font-weight:700;cursor:pointer">
+    <select id="histYearBracketSel" aria-label="View bracket for year" style="background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--accent);padding:3px 8px;font-size:.8rem;font-weight:700;cursor:pointer">
       <option value="">-- Select Year --</option>
     </select>
   </div>
@@ -169,12 +173,12 @@ button:active{transform:scale(.97)}
 <div class="ctrl">
   <div class="cg">
     <label>Skill Gap:</label>
-    <input type="range" id="sl" min="0" max="5" step="0.1" value="1.5">
-    <input type="number" id="ei" min="0" max="10" step="0.1" value="1.5">
+    <input type="range" id="sl" min="0" max="5" step="0.1" value="1.5" aria-label="Skill gap">
+    <input type="number" id="ei" min="0" max="10" step="0.1" value="1.5" aria-label="Skill gap value">
   </div>
   <div class="cg">
     <label>Curve Shape:</label>
-    <input type="range" id="csl" min="0" max="1" step="0.01" value="1">
+    <input type="range" id="csl" min="0" max="1" step="0.01" value="1" aria-label="Curve shape">
     <span style="font-size:0.7rem;color:var(--dim);min-width:62px;text-align:center" id="csLbl">Exponential</span>
   </div>
 
@@ -185,7 +189,7 @@ button:active{transform:scale(.97)}
   <div class="cw">
     <div class="cw-hdr">
       <h3>P(Loss) for Seed</h3>
-      <select id="lossSeedSel"></select>
+      <select id="lossSeedSel" aria-label="Seed for loss chart"></select>
       <h3>vs Each Opponent</h3>
     </div>
     <canvas id="lsC"></canvas>
@@ -809,6 +813,7 @@ function hypoPickRegion(regionIdx,roundIdx,matchIdx,teamKey){
   const m=reg.rounds[roundIdx][matchIdx];
   if(!m||!m.teamA||!m.teamB)return; // can't pick if slots empty
   const picked=teamKey==='A'?m.teamA:m.teamB;
+  if(m.winner===picked)return; // re-tapping the current pick must not wipe later picks
   m.winner=picked;
   // Clear only the downstream chain from this specific game
   clearHypoDownstream(regionIdx,roundIdx,matchIdx);
@@ -820,6 +825,7 @@ function hypoPickRegion(regionIdx,roundIdx,matchIdx,teamKey){
 function hypoPickFF(ffIdx,teamKey){
   const m=hypoData.ff[ffIdx];
   if(!m||!m.teamA||!m.teamB)return;
+  if(m.winner===(teamKey==='A'?m.teamA:m.teamB))return; // same pick: keep the championship
   m.winner=teamKey==='A'?m.teamA:m.teamB;
   // Clear championship
   hypoData.ch.teamA=hypoData.ff[0].winner;
