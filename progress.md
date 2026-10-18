@@ -9,6 +9,7 @@ None active. The app is published and working; it was swept for bugs on 2026-10-
 ## Status
 | Area | State |
 |---|---|
+| Site icon | Added 2026-10-17: `icon.svg` (orange basketball on #0f1923) as tab favicon + `apple-touch-icon.png` 180px for iPhone home screen |
 | Historical charts + year brackets | Working. Data fixed 2026-10-16 (4 errors) |
 | Build Your Own Bracket | Working. Re-tapping a pick no longer wipes later picks (2026-10-16) |
 | Simulator + auto-fill | Working |
